@@ -1,0 +1,46 @@
+{
+  "location": "chambre",
+  "ambiance": "Sanctuaire intime, lit imposant, éclairage sensuel, abandon total",
+  "actions": {
+    "baiser_profond": {
+      "high_resistance": [
+        "Il t'embrasse passionnément malgré ta résistance : 'Arrête de penser... ressens seulement...'",
+        "Ses lèvres capturent les tiennes dans un baiser intense : 'Laisse-toi aller... tu en as envie.'",
+        "Il approfondit le baiser, balayant tes dernières défenses : 'Tu ne peux plus mentir à ton corps...'"
+      ],
+      "medium_resistance": [
+        "Il t'embrasse avec passion, sa langue cherchant la tienne...",
+        "Vos bouches se mélangent dans un baiser intense...",
+        "Il approfondit le baiser, te coupant le souffle..."
+      ],
+      "low_resistance": [
+        "Vos bouches se dévorent avec une passion mutuelle...",
+        "Tu te perds dans ce baiser dévorant, abandonnant toute retenue...",
+        "L'intensité de ce baiser vous fait perdre la tête ensemble..."
+      ]
+    },
+    "caresses_intimes": {
+      "high_resistance": [
+        "Ses caresses deviennent plus audacieuses malgré tes protestations...",
+        "Il explore ton intimité tandis que tu essaies de résister...",
+        "Ses doigts trouvent tes zones les plus sensibles : 'Tu ne peux plus te cacher...'"
+      ],
+      "medium_resistance": [
+        "Ses mains explorent ton intimité avec expertise...",
+        "Il caresse tes zones les plus sensibles...",
+        "Tu frémis sous ses caresses intimes..."
+      ],
+      "low_resistance": [
+        "Tu t'abandonnes complètement à ses caresses intimes...",
+        "Ton corps s'offre sans retenue à ses explorations...",
+        "Ses caresses expertes t'emmènent vers des sommets de plaisir..."
+      ]
+    }
+  },
+  "atmosphere_descriptions": [
+    "Dans la chambre, l'atmosphère est chargée de promesses interdites...",
+    "Le grand lit domine la pièce, témoin muet de tant d'abandons passés.",
+    "L'éclairage indirect crée une ambiance propice aux confessions les plus intimes.",
+    "Ici, tous les masques tombent, seule l'authenticité du désir compte."
+  ]
+}

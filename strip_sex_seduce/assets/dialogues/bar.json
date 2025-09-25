@@ -1,0 +1,75 @@
+{
+  "location": "bar",
+  "ambiance": "Lounge élégant avec jazz, éclairage tamisé, clientèle raffinée",
+  "actions": {
+    "compliment": {
+      "high_resistance": [
+        "Il te sourit malgré ta réserve : 'Tu es vraiment magnifique, même si tu sembles timide...'",
+        "Son regard insistant te met mal à l'aise : 'Cette robe te va à merveille, elle révèle ta beauté naturelle.'",
+        "'J'adore ton parfum... Il me donne envie de me rapprocher de toi.'"
+      ],
+      "medium_resistance": [
+        "Il te sourit chaleureusement : 'Tu es vraiment magnifique ce soir...'",
+        "Son regard s'attarde sur toi : 'Cette robe te va à merveille.'",
+        "'Tu illumines vraiment cette soirée, tu sais ?'"
+      ],
+      "low_resistance": [
+        "Il te complimente avec assurance : 'Tu es absolument sublime...'",
+        "Son regard appréciateur te fait rougir : 'Tu es exactement mon type de femme.'",
+        "'Tu es si belle que j'ai du mal à me concentrer sur autre chose.'"
+      ]
+    },
+    "contact_epaule": {
+      "high_resistance": [
+        "Malgré ton recul, sa main trouve ton épaule : 'N'aie pas peur, je ne te ferai aucun mal...'",
+        "Il pose doucement sa main sur ton épaule nue, ignorant ta tension : 'Détends-toi, ma belle...'",
+        "Sa main chaude sur ton épaule te fait frissonner malgré toi : 'Tu trembles ? Il fait pourtant chaud ici...'"
+      ],
+      "medium_resistance": [
+        "Sa main se pose doucement sur ton épaule nue...",
+        "Ses doigts effleurent ta peau, traçant de petits cercles...",
+        "Il se rapproche, sa main chaude sur ton épaule..."
+      ],
+      "low_resistance": [
+        "Sa main caresse naturellement ton épaule : 'Ta peau est si douce...'",
+        "Il masse tendrement ton épaule : 'Tu sembles tendue... laisse-moi t'aider à te détendre.'",
+        "Ses doigts experts explorent délicatement ton épaule : 'J'adore te toucher...'"
+      ]
+    },
+    "conversation_charme": {
+      "base": [
+        "Il engage une conversation pleine de charme et d'esprit...",
+        "Sa voix devient plus grave, plus séductrice...",
+        "'Raconte-moi... qu'est-ce qui te passionne vraiment ?'",
+        "Il trouve toujours le mot juste pour te faire rire...",
+        "La conversation dérive vers des sujets plus intimes..."
+      ]
+    }
+  },
+  "player_responses": {
+    "high_resistance": [
+      "'Je... je ne sais pas si c'est une bonne idée...'",
+      "'Tu ne crois pas qu'on va un peu vite ?'",
+      "'Je ne te connais même pas vraiment...'",
+      "'Peut-être devrions-nous prendre notre temps...'"
+    ],
+    "medium_resistance": [
+      "'Je ne sais pas trop...'",
+      "'Tu es très direct...'",
+      "'Je ne fais pas ça d'habitude...'",
+      "'C'est un peu troublant...'"
+    ],
+    "low_resistance": [
+      "'Je... d'accord...'",
+      "'Si tu penses que c'est bien...'",
+      "'Tu me fais perdre la tête...'",
+      "'J'ai envie de te faire confiance...'"
+    ]
+  },
+  "atmosphere_descriptions": [
+    "L'ambiance du bar lounge crée une intimité troublante entre vous deux.",
+    "Les conversations des autres clients se mélangent au jazz, vous isolant du monde.",
+    "L'éclairage tamisé fait danser les ombres sur vos visages complices.",
+    "Autour de vous, d'autres couples partagent des moments d'intimité discrète."
+  ]
+}
