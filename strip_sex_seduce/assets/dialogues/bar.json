@@ -1,0 +1,26 @@
+{
+  "location": "bar",
+  "ambiance": "Public, musique, conversations",
+  "actions": {
+    "compliment": [
+      "Il te sourit chaleureusement : 'Tu es vraiment magnifique ce soir...'",
+      "Son regard s'attarde sur toi : 'Cette robe te va à merveille.'",
+      "'J'adore ton parfum, il est... envoûtant.'"
+    ],
+    "contact_epaule": [
+      "Sa main se pose doucement sur ton épaule nue...",
+      "Ses doigts effleurent ta peau, traçant de petits cercles...",
+      "Il se rapproche, sa main chaude sur ton épaule..."
+    ]
+  },
+  "player_responses": {
+    "high_resistance": [
+      "Je... je ne sais pas si c'est une bonne idée...",
+      "Tu ne crois pas qu'on va un peu vite ?"
+    ],
+    "low_resistance": [
+      "Je... d'accord...",
+      "Si tu penses que c'est bien..."
+    ]
+  }
+}

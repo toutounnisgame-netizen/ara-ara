@@ -1,0 +1,54 @@
+{
+  "stats": {
+    "initial_volonte": 100,
+    "initial_excitation": 0,
+    "max_stat": 100,
+    "min_stat": 0,
+    "thresholds": {
+      "vulnerable": 40,
+      "aroused": 60,
+      "submissive": 20,
+      "climax_ready": 85
+    }
+  },
+  "action_effects": {
+    "compliment": {
+      "volonte": -2,
+      "excitation": 3
+    },
+    "contact_epaule": {
+      "volonte": -5,
+      "excitation": 5
+    },
+    "main_cuisse": {
+      "volonte": -8,
+      "excitation": 12
+    },
+    "baiser_leger": {
+      "volonte": -10,
+      "excitation": 15
+    },
+    "caresses": {
+      "volonte": -12,
+      "excitation": 20
+    }
+  },
+  "location_modifiers": {
+    "bar": {
+      "privacy": 0.2,
+      "escape": 0.8
+    },
+    "voiture": {
+      "privacy": 0.6,
+      "escape": 0.6
+    },
+    "salon": {
+      "privacy": 0.8,
+      "escape": 0.4
+    },
+    "chambre": {
+      "privacy": 1.0,
+      "escape": 0.2
+    }
+  }
+}
