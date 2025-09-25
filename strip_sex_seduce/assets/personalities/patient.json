@@ -1,45 +1,24 @@
 {
-  "type": "patient",
-  "display_name": "Le Séducteur Patient",
-  "description": "Expert en séduction lente et progressive, il sait attendre le bon moment",
   "traits": {
-    "dominance": 0.5,
-    "patience": 0.95,
-    "charm": 0.9,
-    "adaptability": 0.8,
-    "persistence": 0.7,
-    "subtlety": 0.95,
-    "intelligence": 0.9
+    "dominance": 0.4,
+    "patience": 0.9,
+    "charm": 0.8,
+    "adaptability": 0.7,
+    "persistence": 0.6,
+    "subtlety": 0.8
   },
-  "strategy_preferences": {
+  "behavioral_patterns": {
+    "adaptation_sensitivity": 4,
+    "escalation_rate": 0.7,
     "preferred_actions": [
       "compliment",
       "conversation_charme",
-      "regard_insistant"
+      "contact_epaule"
     ],
-    "avoided_actions": [
-      "escalation_rapide",
-      "contact_force"
-    ],
-    "adaptation_style": "progressive",
-    "signature_moves": [
-      "attendre_ouverture",
-      "charme_subtil",
-      "patience_strategique"
+    "adaptation_messages": [
+      "Il ralentit visiblement le rythme, devenant plus attentionné...",
+      "Tu le sens qui prend son temps, respectant tes hésitations...",
+      "Il adopte une approche plus douce et patiente..."
     ]
-  },
-  "dialogue_style": {
-    "approach": "Courtois et raffiné",
-    "voice_tone": "Grave et séductrice",
-    "tactics": [
-      "compliments_sincères",
-      "écoute_active",
-      "mystère_maintenu"
-    ]
-  },
-  "effectiveness": {
-    "vs_high_resistance": 0.9,
-    "vs_medium_resistance": 0.8,
-    "vs_low_resistance": 0.6
   }
 }

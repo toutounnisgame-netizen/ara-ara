@@ -1,222 +1,208 @@
 """
-DialogueSystem V2.0 - Performance <50ms garanti
-Correctif critique: Cache pré-calculé + sélection instantanée
+DialogueSystem V2.0 - Cache Ultra Performance <10ms
+Génération dialogues contextuels avec cache pré-calculé
 """
 
 from core.system import System
 from core.entity import Entity
-from components.dialogue import DialogueComponent
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
+import json
 import random
 import time
 
 class DialogueSystem(System):
-    """System dialogues ULTRA-OPTIMISÉ pour performance <50ms"""
+    """System dialogues avec cache ultra-performance <10ms garanti"""
 
     def __init__(self):
         super().__init__("DialogueSystem")
 
-        # CACHE PRÉ-CALCULÉ - Performance critique <50ms
-        self.action_descriptions = {
-            # Actions base intensité 1-2
-            "compliment": [
-                "Il te sourit chaleureusement : 'Tu es vraiment magnifique ce soir...'",
-                "Son regard s'attarde sur toi : 'Cette robe te va à merveille.'",
-                "'J'adore ton parfum, il est... envoûtant.'",
-                "'Tu illumines vraiment cette soirée, tu sais ?'",
-                "Il s'approche légèrement : 'Tu as quelque chose de spécial...'"
-            ],
-            "regard_insistant": [
-                "Ses yeux ne quittent pas les tiens, intensément...",
-                "Il te regarde avec une attention troublante...",
-                "Son regard glisse lentement sur ta silhouette...",
-                "Il soutient ton regard avec un sourire énigmatique...",
-                "Tu sens son regard qui te déshabille du regard..."
-            ],
-            "conversation_charme": [
-                "Il engage une conversation pleine de charme et d'esprit...",
-                "Sa voix devient plus grave, plus séductrice...",
-                "'Raconte-moi... qu'est-ce qui te passionne vraiment ?'",
-                "Il trouve toujours le mot juste pour te faire rire...",
-                "La conversation dérive vers des sujets plus intimes..."
-            ],
+        # CACHE PERFORMANCE CRITIQUE
+        self._dialogue_cache = {}
+        self._cache_hits = 0
+        self._cache_misses = 0
+        self._generation_times = []
 
-            # Actions escalation modérée intensité 3-4
-            "contact_epaule": [
-                "Sa main se pose doucement sur ton épaule nue...",
-                "Ses doigts effleurent ta peau, traçant de petits cercles...",
-                "Il se rapproche, sa main chaude sur ton épaule...",
-                "Il laisse sa main s'attarder plus longtemps que nécessaire...",
-                "Tu sens la chaleur de sa paume à travers le tissu..."
-            ],
-            "rapprochement_physique": [
-                "Il se rapproche insensiblement de toi...",
-                "L'espace entre vous se réduit progressivement...",
-                "Il trouve des prétextes pour être plus près...",
-                "Sa proximité devient troublante...",
-                "Tu sens son souffle effleurer ton cou..."
-            ],
-            "main_cuisse": [
-                "Sa main glisse lentement vers ta cuisse...",
-                "Tu sens sa paume chaude sur ta jambe...",
-                "Il caresse doucement ta cuisse du bout des doigts...",
-                "Sa main remonte imperceptiblement...",
-                "Tu frissonnes sous cette caresse inattendue..."
-            ],
-
-            # Actions escalation forte intensité 5+
-            "baiser_leger": [
-                "Il s'approche et dépose un baiser délicat sur tes lèvres...",
-                "Ses lèvres effleurent les tiennes avec tendresse...",
-                "Il t'embrasse doucement, savourant l'instant...",
-                "Un baiser doux mais qui laisse présager plus...",
-                "Ses lèvres trouvent les tiennes dans un baiser tendre..."
-            ],
-            "caresses": [
-                "Ses mains explorent délicatement ton corps...",
-                "Il caresse ta peau avec une douceur troublante...",
-                "Ses doigts dessinent des chemins sur ta peau...",
-                "Tu te perds sous ses caresses expertes...",
-                "Chaque caresse éveille de nouveaux frissons..."
-            ],
-            "baiser_profond": [
-                "Il t'embrasse avec passion, sa langue cherchant la tienne...",
-                "Vos bouches se mélangent dans un baiser intense...",
-                "Il approfondit le baiser, te coupant le souffle...",
-                "Tu te laisses emporter par ce baiser dévorant...",
-                "L'intensité de ce baiser vous fait perdre la tête..."
-            ]
-        }
-
-        # CACHE CONTEXTUEL selon résistance - Performance optimisée
-        self.resistance_modifiers = {
-            "high_resistance": {
-                "prefix": ["Malgré tes réticences, ", "Doucement, ", "Avec patience, "],
-                "suffix": [" Tu essaies de reculer...", " Tu te crispes légèrement...", " Ton corps résiste..."]
+        # DIALOGUE BASE TEMPLATES - PRÉ-CALCULÉ
+        self._base_templates = {
+            "compliment": {
+                "bar": [
+                    "Il te sourit chaleureusement : 'Tu as un regard vraiment captivant...'",
+                    "'Tu es magnifique ce soir', murmure-t-il en se rapprochant.",
+                    "Il lève son verre vers toi : 'À la plus belle femme de ce bar.'"
+                ],
+                "voiture": [
+                    "Dans l'intimité de la voiture : 'J'adore ta façon de sourire.'",
+                    "'Tu sens divinement bon', dit-il en ajustant le rétroviseur.",
+                    "Sa main effleure la tienne : 'Tu me troubles vraiment...'"
+                ],
+                "salon": [
+                    "Dans son salon, il te contemple : 'Tu es encore plus belle à la lumière douce.'",
+                    "'Cette ambiance te va à merveille', dit-il en s'approchant.",
+                    "Il caresse doucement ta joue : 'Parfaite...'"
+                ],
+                "chambre": [
+                    "Dans l'intimité de la chambre : 'Tu es absolument désirable...'",
+                    "Il trace le contour de ton visage : 'Magnifique...'",
+                    "'Je n'arrive plus à te résister', souffle-t-il."
+                ]
             },
-            "medium_resistance": {
-                "prefix": ["", "Tendrement, ", "Délicatement, "],
-                "suffix": [" Tu hésites un instant...", " Une partie de toi résiste encore...", " Tu te sens troublée..."]
+            "conversation_charme": {
+                "bar": [
+                    "Il se penche vers ton oreille : 'Raconte-moi tes secrets...'",
+                    "'Tu as l'air mystérieuse... j'aimerais te découvrir.'",
+                    "Sa voix devient plus grave : 'Qu'est-ce qui te fait vibrer ?'"
+                ],
+                "voiture": [
+                    "En conduisant, il te lance des regards : 'Tu me distrais dangereusement...'",
+                    "'J'adore ton rire', dit-il en caressant le volant.",
+                    "Il pose sa main libre près de la tienne : 'Dis-moi ce qui te plaît...'"
+                ],
+                "salon": [
+                    "Sur le canapé, il se rapproche : 'J'aimerais mieux te connaître...'",
+                    "'Tu as une énergie magnétique', murmure-t-il à ton oreille.",
+                    "Il joue avec une mèche de tes cheveux : 'Fascinante...'"
+                ],
+                "chambre": [
+                    "Il s'assoit près de toi : 'Raconte-moi tes fantasmes...'",
+                    "'Tu es exactement comme je t'imaginais', souffle-t-il.",
+                    "Ses doigts tracent des cercles sur ta main : 'Parfaite intimité...'"
+                ]
             },
-            "low_resistance": {
-                "prefix": ["Naturellement, ", "Sans résistance, ", "Tu te laisses faire... "],
-                "suffix": [" Tu ne résistes plus...", " Ton corps répond à ses gestes...", " Tu t'abandonnes..."]
+            "regard_insistant": {
+                "bar": [
+                    "Son regard s'attarde sur tes lèvres de façon troublante.",
+                    "Il te fixe intensément, un sourire énigmatique aux lèvres.",
+                    "Ses yeux ne te quittent pas, créant une tension palpable."
+                ],
+                "voiture": [
+                    "Dans le rétroviseur, son regard croise le tien longuement.",
+                    "À chaque feu rouge, il tourne vers toi un regard brûlant.",
+                    "Ses yeux parcourent ton corps avec une intensité troublante."
+                ],
+                "salon": [
+                    "Il te dévore du regard depuis l'autre bout du canapé.",
+                    "Son regard intense te met mal à l'aise et t'excite à la fois.",
+                    "Il observe chacun de tes mouvements avec fascination."
+                ],
+                "chambre": [
+                    "Son regard ardent ne quitte plus tes formes.",
+                    "Il te contemple avec un désir non dissimulé.",
+                    "Ses yeux brûlants parcourent ton corps lentement."
+                ]
+            },
+            "contact_epaule": {
+                "bar": [
+                    "Sa main se pose 'innocemment' sur ton épaule en parlant.",
+                    "Il effleure ton épaule en passant derrière toi.",
+                    "Un contact prolongé de sa main sur ton épaule nue."
+                ],
+                "voiture": [
+                    "En changeant de vitesse, sa main frôle ton épaule.",
+                    "Il ajuste ton siège et sa main s'attarde sur ton épaule.",
+                    "Un massage 'amical' de tes épaules tendues."
+                ],
+                "salon": [
+                    "Il pose son bras sur le dossier, touchant tes épaules.",
+                    "En te montrant quelque chose, il caresse ton épaule.",
+                    "Sa main glisse de ton épaule vers ton dos."
+                ],
+                "chambre": [
+                    "Il masse tendrement tes épaules dénudées.",
+                    "Ses mains expertes pétrissent tes épaules tendues.",
+                    "Un toucher possessif sur tes épaules frémissantes."
+                ]
             }
         }
 
-        # CACHE lieux pour variation contextuelle
-        self.location_contexts = {
-            "bar": {
-                "suffix": [" autour de vous, les autres clients...", " la musique couvre vos murmures..."],
-                "constraints": "public"
-            },
-            "voiture": {
-                "suffix": [" dans l'intimité de l'habitacle...", " les vitres teintées vous protègent..."],
-                "constraints": "semi_private"
-            },
-            "salon": {
-                "suffix": [" dans la pénombre du salon...", " l'atmosphère devient électrique..."],
-                "constraints": "private"
-            },
-            "chambre": {
-                "suffix": [" dans l'intimité de la chambre...", " plus rien ne peut vous arrêter..."],
-                "constraints": "intimate"
-            }
-        }
+        # PRÉ-CALCUL CACHE INITIAL
+        self._precompute_cache()
 
-        # Anti-répétition avec index circulaire
-        self._last_used = {}
-        self._generation_count = 0
+    def _precompute_cache(self):
+        """Pré-calcule les dialogues les plus courants pour cache ultra-rapide"""
 
-    def update(self, entities: List[Entity], delta_time: float = 0.0, **kwargs):
-        """Update minimal pour performance"""
-        # Pas de traitement lourd ici pour maintenir <50ms
-        pass
+        common_actions = ["compliment", "conversation_charme", "regard_insistant", "contact_epaule"]
+        locations = ["bar", "voiture", "salon", "chambre"]
 
-    def generate_npc_action_text(self, action: str, player, environment) -> str:
+        for action in common_actions:
+            for location in locations:
+                cache_key = f"{action}_{location}_standard"
+                if action in self._base_templates and location in self._base_templates[action]:
+                    templates = self._base_templates[action][location]
+                    self._dialogue_cache[cache_key] = random.choice(templates)
+
+        print(f"💾 Cache pré-calculé: {len(self._dialogue_cache)} dialogues")
+
+    def generate_npc_action_text(self, action: str, player: Entity, 
+                                environment: Entity, context: Dict = None) -> str:
         """
-        Génération ULTRA-RAPIDE <10ms avec cache
-
-        Args:
-            action: Action NPC à décrire
-            player: Entity player pour contexte résistance
-            environment: Entity environment pour contexte lieu
-
-        Returns:
-            Texte description immersive
+        Génération ultra-rapide <10ms avec cache intelligent
         """
         start_time = time.perf_counter()
 
-        # Récupération INSTANTANÉE depuis cache
-        base_descriptions = self.action_descriptions.get(action, [f"Il {action}."])
+        # CACHE KEY CONSTRUCTION
+        location = environment.location if hasattr(environment, 'location') else 'bar'
 
-        # Contexte résistance (performance optimisée)
-        resistance_level = player.get_resistance_level()
-        if resistance_level > 0.7:
-            resistance_key = "high_resistance"
-        elif resistance_level > 0.3:
-            resistance_key = "medium_resistance"
+        # Tentative cache ultra-rapide
+        cache_key = f"{action}_{location}_standard"
+
+        if cache_key in self._dialogue_cache:
+            self._cache_hits += 1
+            result = self._dialogue_cache[cache_key]
         else:
-            resistance_key = "low_resistance"
+            # Génération rapide fallback
+            self._cache_misses += 1
+            result = self._generate_fallback_text(action, location)
 
-        # Sélection description avec évitement répétition
-        last_idx = self._last_used.get(action, -1)
-        available_indices = [i for i in range(len(base_descriptions)) if i != last_idx]
+            # Cache pour prochaines fois
+            self._dialogue_cache[cache_key] = result
 
-        if available_indices:
-            chosen_idx = random.choice(available_indices)
-            self._last_used[action] = chosen_idx
-        else:
-            chosen_idx = 0  # Fallback
+        # Performance tracking
+        end_time = time.perf_counter()
+        generation_time = (end_time - start_time) * 1000  # ms
+        self._generation_times.append(generation_time)
 
-        base_text = base_descriptions[chosen_idx]
+        # Garde seulement les 20 derniers temps pour moyenne
+        if len(self._generation_times) > 20:
+            self._generation_times = self._generation_times[-10:]
 
-        # Modification contextuelle légère (performance critique)
-        resistance_mod = self.resistance_modifiers[resistance_key]
-        location_name = environment.location if hasattr(environment, 'location') else 'bar'
-        location_mod = self.location_contexts.get(location_name, self.location_contexts['bar'])
+        return result
 
-        # Construction finale RAPIDE
-        final_text = base_text
+    def _generate_fallback_text(self, action: str, location: str) -> str:
+        """Génération fallback rapide si pas en cache"""
 
-        # Ajout modificateurs (50% chance pour éviter verbosité)
-        if random.random() < 0.5:
-            if random.random() < 0.3:  # Prefix resistance
-                final_text = random.choice(resistance_mod["prefix"]) + final_text
-
-            if random.random() < 0.3:  # Suffix resistance  
-                final_text += random.choice(resistance_mod["suffix"])
-
-        # Performance monitoring
-        generation_time = (time.perf_counter() - start_time) * 1000
-        self._generation_count += 1
-
-        # Warning si > 10ms (critique)
-        if generation_time > 10:
-            print(f"⚠️ DialogueSystem: {generation_time:.1f}ms (target <10ms)")
-
-        return final_text
-
-    def generate_adaptation_message(self, old_strategy: str, new_strategy: str) -> str:
-        """Messages adaptation IA visible - Cache pour performance"""
-
-        adaptation_messages = {
-            ("normal", "extra_patient"): "Tu le sens qui ralentit le rythme, devenant plus attentionné...",
-            ("normal", "confident"): "Son assurance grandit, il semble plus déterminé...",
-            ("normal", "aggressive"): "Il devient plus insistant, plus direct dans ses approches...",
-            ("extra_patient", "normal"): "Il reprend un rythme plus naturel...",
-            ("confident", "extra_patient"): "Face à ta résistance, il redevient plus prudent...",
-            ("aggressive", "normal"): "Il modère son approche, se faisant plus subtil..."
+        # Templates de base par action
+        fallback_templates = {
+            "compliment": f"Il te fait un compliment dans ce {location}.",
+            "conversation_charme": f"Il engage une conversation charmeuse.",
+            "regard_insistant": f"Il te regarde intensément.",
+            "contact_epaule": f"Il touche ton épaule délicatement.",
+            "rapprochement_physique": f"Il se rapproche de toi.",
+            "main_cuisse": f"Sa main effleure ta cuisse.",
+            "caresses_douces": f"Il te caresse tendrement."
         }
 
-        return adaptation_messages.get((old_strategy, new_strategy), "")
+        return fallback_templates.get(action, f"Il {action} avec toi.")
 
     def get_performance_stats(self) -> Dict[str, Any]:
-        """Stats performance pour debug"""
+        """Stats performance pour monitoring"""
+
+        avg_time = sum(self._generation_times) / len(self._generation_times) if self._generation_times else 0
+        max_time = max(self._generation_times) if self._generation_times else 0
+
+        cache_rate = self._cache_hits / max(1, self._cache_hits + self._cache_misses)
+
         return {
-            "generations_count": self._generation_count,
-            "cache_size": len(self.action_descriptions),
-            "avg_actions_per_type": sum(len(descs) for descs in self.action_descriptions.values()) / len(self.action_descriptions)
+            "avg_generation_ms": round(avg_time, 2),
+            "max_generation_ms": round(max_time, 2),
+            "cache_hit_rate": round(cache_rate * 100, 1),
+            "cache_size": len(self._dialogue_cache),
+            "total_generations": self._cache_hits + self._cache_misses
         }
 
-# PERFORMANCE OPTIMISÉE: <10ms génération, cache efficace, anti-répétition
+    def update(self, entities: List[Entity], delta_time: float = 0.0, **kwargs):
+        """Update system - maintenance cache si nécessaire"""
+
+        # Pas d'update critique nécessaire pour performance
+        pass
+
+# DIALOGUE SYSTEM V2.0: Performance <10ms + cache intelligent + fallbacks

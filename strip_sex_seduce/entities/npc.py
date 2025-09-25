@@ -1,376 +1,304 @@
 """
-NPCMale V2.0 - IA adaptative avec feedback visible
-Correctif: Adaptation comportementale visible + variabilité actions
+NPCMale V2.0 - IA adaptative complète avec feedback visible
+Personnalité évolutive et adaptation comportementale
 """
 
 from core.entity import Entity
 from components.personality import PersonalityComponent
-from components.dialogue import DialogueComponent
 from components.action import ActionComponent
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, List, Any, Tuple, Optional
 import random
+import time
 
 class NPCMale(Entity):
-    """NPC masculin avec IA adaptative avancée et feedback visible"""
+    """NPC masculin avec IA adaptative avancée et feedback utilisateur"""
 
-    def __init__(self, personality_type: str = None, name: str = "Marcus"):
-        super().__init__(f"npc_male_{name.lower()}")
+    def __init__(self, personality_type: str = "mixed"):
+        super().__init__("npc_male")
 
-        # Configuration personnalité avec seed cohérence
-        self.personality_type = personality_type or random.choice(["patient", "direct", "mixed"])
-        self.display_name = name
-        self.behavior_seed = random.randint(1000, 9999)
+        # Identification
+        self.personality_type = personality_type
+        self.display_name = "Marcus"  # Nom par défaut
 
-        # État session avec tracking détaillé
+        # État comportemental
         self.interaction_count = 0
         self.successful_actions = 0
         self.failed_actions = 0
+        self.current_escalation_level = 1
 
-        # NOUVEAU V2.0: Historique adaptation pour feedback
-        self.adaptation_history = []
-        self.last_strategy_announced = None
+        # Historique adaptation pour IA
+        self.resistance_history = []
+        self.action_history = []
+        self.adaptation_messages = []
 
-        # Pool actions par intensité pour escalation
-        self.action_pools = {
-            1: ["compliment", "regard_insistant", "conversation_charme"],
+        # État session
+        self.adaptations_made = 0
+        self.current_strategy = "normal"
+        self.last_adaptation_time = 0
+
+        # Setup components
+        self._setup_personality(personality_type)
+        self._setup_actions()
+
+    def _setup_personality(self, personality_type: str):
+        """Configure personnalité selon type"""
+
+        personality_configs = {
+            "patient": {
+                "traits": {
+                    "dominance": 0.4,
+                    "patience": 0.9,
+                    "charm": 0.8,
+                    "adaptability": 0.7,
+                    "persistence": 0.6,
+                    "subtlety": 0.8
+                },
+                "strategy_preferences": ["gentle", "persistent", "charming"]
+            },
+            "direct": {
+                "traits": {
+                    "dominance": 0.8,
+                    "patience": 0.3,
+                    "charm": 0.6,
+                    "adaptability": 0.4,
+                    "persistence": 0.9,
+                    "subtlety": 0.2
+                },
+                "strategy_preferences": ["confident", "direct", "escalation"]
+            },
+            "mixed": {
+                "traits": {
+                    "dominance": 0.6,
+                    "patience": 0.5,
+                    "charm": 0.7,
+                    "adaptability": 0.8,
+                    "persistence": 0.7,
+                    "subtlety": 0.5
+                },
+                "strategy_preferences": ["adaptive", "balanced", "responsive"]
+            }
+        }
+
+        config = personality_configs.get(personality_type, personality_configs["mixed"])
+
+        personality = PersonalityComponent()
+        personality.traits.update(config["traits"])
+        personality.base_personality = personality_type
+        personality.strategy_preferences = config["strategy_preferences"]
+
+        self.add_component(personality)
+
+    def _setup_actions(self):
+        """Configure actions disponibles"""
+
+        actions = ActionComponent()
+
+        # Actions par niveau escalation
+        action_sets = {
+            1: ["compliment", "conversation_charme", "regard_insistant"],
             2: ["contact_epaule", "rapprochement_physique"],
             3: ["main_cuisse", "caresses_douces"],
             4: ["baiser_leger", "caresses"],
-            5: ["baiser_profond", "caresses_intimes", "removal_vetement"]
+            5: ["baiser_profond", "caresses_intimes"]
         }
 
-        # Niveau escalation actuel
-        self.current_escalation_level = 1
+        for level, action_list in action_sets.items():
+            for action in action_list:
+                actions.add_action(action, success_rate=0.7)
 
-        # Dernières actions pour éviter répétitions
-        self._recent_actions = []
-
-        self._setup_components()
-
-    def _setup_components(self):
-        """Configuration components avec personnalité différenciée"""
-
-        # PersonalityComponent avec traits spécialisés
-        personality = PersonalityComponent(
-            base_personality=self.personality_type,
-            session_seed=self.behavior_seed
-        )
-        self._configure_personality_traits(personality)
-        self.add_component(personality)
-
-        # DialogueComponent
-        dialogue = DialogueComponent(
-            current_scene="seduction_initiale",
-            current_location="bar"
-        )
-        self.add_component(dialogue)
-
-        # ActionComponent avec actions par niveau
-        actions = ActionComponent()
-        self._setup_npc_actions(actions)
         self.add_component(actions)
-
-    def _configure_personality_traits(self, personality: PersonalityComponent):
-        """Configuration traits différenciés par personnalité"""
-
-        if self.personality_type == "patient":
-            personality.traits.update({
-                "dominance": 0.5,      # Moins dominant
-                "patience": 0.95,      # Très patient
-                "charm": 0.9,          # Très charmeur
-                "adaptability": 0.8,   # Très adaptable
-                "persistence": 0.7,    # Modérément persistant
-                "subtlety": 0.95,      # Très subtil
-                "intelligence": 0.9    # Très intelligent
-            })
-
-        elif self.personality_type == "direct":
-            personality.traits.update({
-                "dominance": 0.95,     # Très dominant
-                "patience": 0.2,       # Peu patient
-                "charm": 0.6,          # Charme moyen
-                "adaptability": 0.4,   # Peu adaptable
-                "persistence": 0.95,   # Très persistant
-                "subtlety": 0.3,       # Peu subtil
-                "intelligence": 0.7    # Intelligence moyenne
-            })
-
-        else:  # mixed - Équilibré et intelligent
-            personality.traits.update({
-                "dominance": 0.7,      # Dominant modéré
-                "patience": 0.6,       # Patience moyenne
-                "charm": 0.8,          # Bon charme
-                "adaptability": 0.95,  # Très adaptable (signature)
-                "persistence": 0.7,    # Persistence modérée
-                "subtlety": 0.7,       # Subtilité modérée
-                "intelligence": 0.95   # Très intelligent (signature)
-            })
-
-    def _setup_npc_actions(self, action_component: ActionComponent):
-        """Setup actions avec escalation intelligente"""
-
-        # Toutes actions disponibles par défaut
-        all_actions = []
-        for level_actions in self.action_pools.values():
-            all_actions.extend(level_actions)
-
-        for action in all_actions:
-            # Success rate basé sur niveau escalation et personnalité
-            base_rate = 0.5
-            action_component.add_action(action, success_rate=base_rate)
 
     def choose_next_action(self, player_resistance: float, 
                           context: Dict[str, Any]) -> Tuple[str, Optional[str]]:
         """
-        Choix action avec IA adaptative VISIBLE et feedback
+        IA adaptative choix action + message adaptation visible
+
+        Args:
+            player_resistance: Niveau résistance 0.0-1.0
+            context: Contexte environnement/historique
 
         Returns:
-            Tuple (action, message_adaptation) où message_adaptation peut être None
+            Tuple (action_choisie, message_adaptation_ou_None)
         """
-        personality = self.get_component_of_type(PersonalityComponent)
-        if not personality:
-            return "compliment", None
 
-        # ADAPTATION avec feedback visible
-        old_strategy = personality.strategy_modifier
-        old_escalation_rate = personality.escalation_rate
-
-        # Adaptation selon résistance avec feedback
-        personality.adapt_to_resistance(
-            player_resistance, 
-            success=context.get("last_success", False)
-        )
-
-        new_strategy = personality.strategy_modifier
-        adaptation_message = None
-
-        # FEEDBACK ADAPTATION VISIBLE
-        if old_strategy != new_strategy and new_strategy != self.last_strategy_announced:
-            adaptation_message = self._generate_adaptation_message(old_strategy, new_strategy)
-            self.last_strategy_announced = new_strategy
-
-            # Historique pour analytics
-            self.adaptation_history.append({
-                "from": old_strategy,
-                "to": new_strategy,
-                "resistance_level": player_resistance,
-                "interaction_count": self.interaction_count
-            })
-
-        # SÉLECTION ACTION avec escalation intelligente
-        chosen_action = self._intelligent_action_selection(
-            player_resistance, 
-            personality, 
-            context
-        )
-
-        # Update historique actions récentes
-        self._recent_actions.append(chosen_action)
-        if len(self._recent_actions) > 3:
-            self._recent_actions.pop(0)
-
+        # Enregistrement pour analytics
+        self.resistance_history.append(player_resistance)
         self.interaction_count += 1
+
+        # Limite historique pour performance
+        if len(self.resistance_history) > 10:
+            self.resistance_history = self.resistance_history[-5:]
+
+        # ANALYSE ADAPTATION NÉCESSAIRE
+        adaptation_message = self._analyze_need_adaptation(player_resistance, context)
+
+        # CHOIX ACTION selon stratégie actuelle
+        chosen_action = self._select_action_by_strategy(player_resistance, context)
+
+        # Historique action
+        self.action_history.append({
+            "action": chosen_action,
+            "resistance": player_resistance,
+            "escalation": self.current_escalation_level,
+            "timestamp": time.time()
+        })
 
         return chosen_action, adaptation_message
 
-    def _generate_adaptation_message(self, old_strategy: str, new_strategy: str) -> str:
-        """Génère message adaptation visible selon personnalité"""
+    def _analyze_need_adaptation(self, resistance: float, context: Dict) -> Optional[str]:
+        """Analyse si adaptation nécessaire et génère message"""
 
-        # Messages selon personnalité du NPC
-        if self.personality_type == "patient":
-            messages = {
-                ("normal", "extra_patient"): f"{self.display_name} semble ralentir, observant tes réactions avec plus d'attention...",
-                ("normal", "confident"): f"Tu sens {self.display_name} gagner en assurance, ses gestes deviennent plus sûrs...",
-                ("extra_patient", "normal"): f"{self.display_name} reprend un rythme plus naturel, encouragé par tes réactions...",
-                ("confident", "extra_patient"): f"Face à ta résistance, {self.display_name} redevient plus prudent et attentionné..."
-            }
-        elif self.personality_type == "direct":
-            messages = {
-                ("normal", "aggressive"): f"{self.display_name} devient plus insistant, sa patience semble s'amenuiser...",
-                ("normal", "confident"): f"Il gagne en assurance, son approche devient plus directe...",
-                ("aggressive", "normal"): f"Il modère légèrement son approche, mais reste déterminé...",
-                ("confident", "aggressive"): f"Sa confiance se mue en détermination plus affirmée..."
-            }
-        else:  # mixed
-            messages = {
-                ("normal", "extra_patient"): f"{self.display_name} ajuste sa stratégie, devenant plus attentif à tes réactions...",
-                ("normal", "confident"): f"Tu le vois analyser la situation et adapter son approche...",
-                ("normal", "aggressive"): f"Il change de tactique, devenant plus direct dans ses intentions...",
-                ("extra_patient", "confident"): f"Sentant une ouverture, il devient plus entreprenant...",
-                ("confident", "extra_patient"): f"Il réévalue la situation et revient à une approche plus mesurée..."
-            }
+        # Pas d'adaptation les 2 premiers tours
+        if self.interaction_count < 3:
+            return None
 
-        return messages.get((old_strategy, new_strategy), "")
+        # Analyse tendance résistance sur dernières actions
+        if len(self.resistance_history) >= 3:
+            recent_resistance = self.resistance_history[-3:]
+            avg_resistance = sum(recent_resistance) / len(recent_resistance)
 
-    def _intelligent_action_selection(self, player_resistance: float, 
-                                    personality: PersonalityComponent,
-                                    context: Dict[str, Any]) -> str:
-        """Sélection action avec IA avancée et escalation"""
+            personality = self.get_component_of_type(PersonalityComponent)
+            if not personality:
+                return None
 
-        # Ajustement niveau escalation selon résistance
-        if player_resistance > 0.8:  # Résistance forte
-            # Rester à niveau bas ou descendre
-            self.current_escalation_level = min(2, self.current_escalation_level)
-        elif player_resistance > 0.5:  # Résistance modérée
-            # Escalation prudente
-            if personality.traits["patience"] > 0.7:
-                self.current_escalation_level = min(3, self.current_escalation_level)
-            else:
-                self.current_escalation_level = min(4, self.current_escalation_level + 1)
-        elif player_resistance > 0.2:  # Faible résistance
-            # Escalation plus agressive
-            if personality.traits["dominance"] > 0.7:
-                self.current_escalation_level = min(5, self.current_escalation_level + 1)
-            else:
-                self.current_escalation_level = min(4, self.current_escalation_level + 1)
-        else:  # Très faible résistance
-            # Escalation maximale selon personnalité
-            if personality.traits["persistence"] > 0.8:
-                self.current_escalation_level = 5
-            else:
-                self.current_escalation_level = min(5, self.current_escalation_level + 1)
+            adaptation_threshold = 0.7  # Seuil adaptation
 
-        # Ajustement selon lieu
+            # RÉSISTANCE FORTE -> Adaptation patience
+            if avg_resistance > adaptation_threshold and self.current_strategy != "extra_patient":
+                self.current_strategy = "extra_patient"
+                self.adaptations_made += 1
+
+                # Message selon personnalité
+                if self.personality_type == "patient":
+                    return "Tu le sens qui ralentit le rythme, devenant encore plus attentionné..."
+                elif self.personality_type == "direct":
+                    return "Il prend une grande inspiration, visiblement en train de réévaluer son approche..."
+                else:  # mixed
+                    return "Marcus devient plus patient, ajustant sa stratégie à ta résistance..."
+
+            # RÉSISTANCE FAIBLE -> Adaptation confiance  
+            elif avg_resistance < 0.3 and self.current_strategy != "confident":
+                self.current_strategy = "confident"
+                self.adaptations_made += 1
+
+                if self.personality_type == "direct":
+                    return "Tu sens une nouvelle assurance dans ses gestes, plus déterminé..."
+                elif self.personality_type == "patient":
+                    return "Il devient plus entreprenant, encouragé par ta réceptivité..."
+                else:  # mixed
+                    return "Marcus s'enhardis, sentant que tu es plus réceptive..."
+
+            # RÉSISTANCE VARIABLE -> Adaptation équilibrée
+            elif len(set(recent_resistance)) >= 2 and self.current_strategy != "adaptive":
+                self.current_strategy = "adaptive"
+                self.adaptations_made += 1
+
+                return "Il semble analyser tes réactions, adaptant son comportement en temps réel..."
+
+        return None
+
+    def _select_action_by_strategy(self, resistance: float, context: Dict) -> str:
+        """Sélectionne action selon stratégie adaptée"""
+
         location = context.get("location", "bar")
-        max_escalation_by_location = {
-            "bar": 2,      # Public - actions discrètes seulement
-            "voiture": 4,  # Semi-privé
-            "salon": 4,    # Privé
-            "chambre": 5   # Intime - tout autorisé
-        }
 
-        max_allowed = max_escalation_by_location.get(location, 2)
-        effective_escalation = min(self.current_escalation_level, max_allowed)
+        # ACTIONS SELON STRATÉGIE ACTUELLE
+        if self.current_strategy == "extra_patient":
+            # Stratégie patience - actions douces
+            if resistance > 0.7:
+                actions = ["compliment", "conversation_charme"]
+            else:
+                actions = ["regard_insistant", "contact_epaule"]
 
-        # Pool actions possibles
-        possible_actions = []
-        for level in range(1, effective_escalation + 1):
-            possible_actions.extend(self.action_pools.get(level, []))
+        elif self.current_strategy == "confident":
+            # Stratégie confiance - escalation plus rapide
+            if resistance < 0.3:
+                actions = ["rapprochement_physique", "main_cuisse", "caresses_douces"]
+            else:
+                actions = ["contact_epaule", "rapprochement_physique"]
 
-        # Filtrage actions récentes pour éviter répétition
-        filtered_actions = [a for a in possible_actions if a not in self._recent_actions[-2:]]
-        if not filtered_actions:
-            filtered_actions = possible_actions  # Fallback si tout récent
+        elif self.current_strategy == "adaptive":
+            # Stratégie adaptive - selon contexte
+            if resistance > 0.6:
+                actions = ["compliment", "conversation_charme"]
+            elif resistance > 0.3:
+                actions = ["contact_epaule", "rapprochement_physique"]
+            else:
+                actions = ["main_cuisse", "caresses_douces"]
 
-        # Sélection avec préférences personnalité
-        action_scores = {}
-        for action in filtered_actions:
-            score = 0.5  # Base score
+        else:  # strategy normale
+            # Choix standard selon résistance
+            if resistance > 0.7:
+                actions = ["compliment", "conversation_charme", "regard_insistant"]
+            elif resistance > 0.4:
+                actions = ["contact_epaule", "rapprochement_physique"]
+            else:
+                actions = ["main_cuisse", "caresses_douces"]
 
-            # Bonus selon traits personnalité
-            if "charme" in action or "conversation" in action:
-                score += personality.traits["charm"] * 0.3
+        # FILTRAGE SELON LIEU (contraintes sociales)
+        if location == "bar":
+            # En public - actions limitées
+            allowed_public = ["compliment", "conversation_charme", "regard_insistant", "contact_epaule"]
+            actions = [a for a in actions if a in allowed_public]
 
-            if "contact" in action or "caresse" in action:
-                score += personality.traits["dominance"] * 0.3
+        # Sélection finale
+        if not actions:
+            actions = ["compliment"]  # Fallback sûr
 
-            if "leger" in action or action in ["compliment", "regard_insistant"]:
-                score += personality.traits["subtlety"] * 0.2
-
-            # Bonus expérience apprise
-            score += personality.get_action_preference_score(action)
-
-            # Malus si action très récente
-            if action == self._recent_actions[-1:]:
-                score -= 0.4
-
-            action_scores[action] = score
-
-        # Sélection avec randomness pondéré
-        if not action_scores:
-            return "compliment"  # Fallback sécurisé
-
-        # Top 3 actions avec probabilités
-        sorted_actions = sorted(action_scores.items(), key=lambda x: x[1], reverse=True)
-        top_actions = sorted_actions[:min(3, len(sorted_actions))]
-
-        if len(top_actions) == 1:
-            return top_actions[0][0]
-
-        # Sélection probabiliste
-        actions_only = [action for action, score in top_actions]
-        weights = [3, 2, 1] if len(top_actions) >= 3 else [2, 1]
-
-        return random.choices(actions_only, weights=weights[:len(actions_only)])[0]
-
-    def process_action_result(self, action: str, success: bool, 
-                            player_reaction: str = ""):
-        """Traite résultat action pour apprentissage IA"""
-
-        personality = self.get_component_of_type(PersonalityComponent)
-        if personality:
-            personality.learn_from_interaction(action, success)
-
-        # Stats session
-        if success:
-            self.successful_actions += 1
-        else:
-            self.failed_actions += 1
+        return random.choice(actions)
 
     def get_behavioral_state(self) -> Dict[str, Any]:
-        """État comportemental avec info adaptation visible"""
+        """État comportemental complet pour analytics et debug"""
 
-        personality = self.get_component_of_type(PersonalityComponent)
-        success_rate = self.successful_actions / max(1, self.interaction_count) if self.interaction_count > 0 else 0
+        success_rate = 0.0
+        if self.interaction_count > 0:
+            success_rate = self.successful_actions / self.interaction_count
 
-        state = {
+        return {
             "name": self.display_name,
             "personality_type": self.personality_type,
             "interaction_count": self.interaction_count,
             "success_rate": success_rate,
             "current_escalation": self.current_escalation_level,
-            "recent_actions": self._recent_actions.copy(),
-            "adaptations_made": len(self.adaptation_history)
+            "recent_actions": self.action_history[-3:] if self.action_history else [],
+            "adaptations_made": self.adaptations_made,
+            "current_strategy": self.current_strategy,
+            "escalation_rate": 1.0,
+            "avg_resistance_faced": sum(self.resistance_history) / len(self.resistance_history) if self.resistance_history else 0.5,
+            "dominant_traits": self._get_dominant_traits()
         }
 
-        if personality:
-            state.update({
-                "current_strategy": personality.strategy_modifier,
-                "escalation_rate": personality.escalation_rate,
-                "dominant_traits": [
-                    trait for trait, value in personality.traits.items() 
-                    if value > 0.8
-                ]
-            })
-
-        return state
-
-    def get_adaptation_summary(self) -> List[str]:
-        """Résumé adaptations visibles pour debug"""
-
-        if not self.adaptation_history:
-            return ["Aucune adaptation comportementale encore."]
-
-        summary = []
-        for adaptation in self.adaptation_history[-3:]:  # 3 dernières
-            summary.append(
-                f"Tour {adaptation['interaction_count']}: "
-                f"{adaptation['from']} → {adaptation['to']} "
-                f"(résistance: {adaptation['resistance_level']:.1%})"
-            )
-
-        return summary
-
-    def reset_session_state(self):
-        """Reset état session pour nouvelle partie"""
-
-        self.interaction_count = 0
-        self.successful_actions = 0
-        self.failed_actions = 0
-        self.current_escalation_level = 1
-        self._recent_actions.clear()
-        self.adaptation_history.clear()
-        self.last_strategy_announced = None
+    def _get_dominant_traits(self) -> List[str]:
+        """Retourne traits dominants pour affichage"""
 
         personality = self.get_component_of_type(PersonalityComponent)
-        if personality:
-            personality.reset_adaptation()
+        if not personality:
+            return ["charme"]
 
-    def __repr__(self) -> str:
-        success_rate = round((self.successful_actions / max(1, self.interaction_count)) * 100)
-        return (f"NPCMale(name={self.display_name}, "
-                f"personality={self.personality_type}, "
-                f"escalation={self.current_escalation_level}, "
-                f"success_rate={success_rate}%)")
+        # Tri traits par valeur
+        sorted_traits = sorted(personality.traits.items(), key=lambda x: x[1], reverse=True)
 
-# IA AVANCÉE: Feedback visible + escalation intelligente + variabilité
+        return [trait[0] for trait in sorted_traits[:2]]
+
+    def record_action_result(self, success: bool):
+        """Enregistre résultat d'une action pour analytics"""
+
+        if success:
+            self.successful_actions += 1
+        else:
+            self.failed_actions += 1
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Sérialisation enrichie"""
+
+        base_dict = super().to_dict()
+        base_dict.update({
+            "personality_type": self.personality_type,
+            "display_name": self.display_name,
+            "interaction_count": self.interaction_count,
+            "adaptations_made": self.adaptations_made,
+            "current_strategy": self.current_strategy
+        })
+        return base_dict
+
+# NPC V2.0: IA adaptative + feedback visible + personnalité évolutive

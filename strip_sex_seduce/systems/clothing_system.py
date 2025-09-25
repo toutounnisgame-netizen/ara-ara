@@ -1,333 +1,204 @@
 """
-ClothingSystem V2.0 - Gestion vêtements avec progression visible
-Correctif: Modifications graduelles + affichage temps réel + réalisme
+ClothingSystem V2.0 - Système vêtements actif avec descriptions
+Modifications graduelles et affichage temps réel
 """
 
 from core.system import System
 from core.entity import Entity
 from components.clothing import ClothingComponent
 from typing import List, Dict, Any, Optional
+import random
 
 class ClothingSystem(System):
-    """System vêtements avec modifications graduelles et affichage visible"""
+    """System vêtements avec modifications graduelles et feedback"""
 
     def __init__(self):
         super().__init__("ClothingSystem")
 
-        # Correspondance actions NPC → modifications vêtements
-        self.action_clothing_effects = {
-            # Actions légères - ajustements subtils
-            "contact_epaule": {
-                "pieces": ["bretelles_robe"],
-                "modifications": ["legerement_deplacee", "glissee"],
-                "exposure_gain": 2,
-                "description": "La bretelle de ta robe glisse légèrement sous sa caresse..."
+        # ESCALATION VÊTEMENTS PAR NIVEAU
+        self.clothing_escalation = {
+            1: {  # Niveau social - ajustements mineurs
+                "actions": ["ajuster_bretelles", "lisser_tissu", "replacer_cheveux"],
+                "descriptions": [
+                    "Il ajuste délicatement la bretelle de ta robe.",
+                    "Sa main lisse le tissu de ta jupe.",
+                    "Il replace une mèche de cheveux derrière ton oreille."
+                ]
             },
-            "rapprochement_physique": {
-                "pieces": ["robe", "chemisier"],
-                "modifications": ["plis_froissee", "legerement_remontee"],
-                "exposure_gain": 3,
-                "description": "Tes vêtements se froissent légèrement contre lui..."
+            2: {  # Niveau contact - déplacements légers
+                "actions": ["glisser_bretelle", "remonter_leger_jupe", "ouvrir_bouton_haut"],
+                "descriptions": [
+                    "Sa main fait glisser la bretelle de ton épaule.",
+                    "Il remonte légèrement le bas de ta jupe en parlant.",
+                    "Il dégrafe subtilement le bouton du haut de ton chemisier."
+                ]
             },
-
-            # Actions modérées - modifications visibles
-            "main_cuisse": {
-                "pieces": ["robe", "jupe"],
-                "modifications": ["remontee", "retroussee"],
-                "exposure_gain": 8,
-                "description": "Sa main fait remonter le tissu, dévoilant tes cuisses..."
+            3: {  # Niveau intime - modifications visibles
+                "actions": ["deboutonner_chemisier", "remonter_jupe", "faire_glisser_robe"],
+                "descriptions": [
+                    "Il déboutonne lentement ton chemisier, bouton par bouton.",
+                    "Ta jupe remonte, dévoilant tes cuisses nacrées.",
+                    "Il fait glisser ta robe le long de tes épaules."
+                ]
             },
-            "caresses_douces": {
-                "pieces": ["chemisier", "top"],
-                "modifications": ["boutonne_partiellement", "entrouverte"],
-                "exposure_gain": 10,
-                "description": "Ses caresses défont délicatement quelques boutons..."
+            4: {  # Niveau avancé - dévoilement
+                "actions": ["retirer_chemisier", "baisser_bretelles_soutien_gorge", "faire_tomber_jupe"],
+                "descriptions": [
+                    "Il retire complètement ton chemisier, admirant ta silhouette.",
+                    "Les bretelles de ton soutien-gorge glissent de tes épaules.",
+                    "Ta jupe tombe au sol dans un froissement soyeux."
+                ]
             },
-
-            # Actions intenses - déshabillement progressif
-            "baiser_leger": {
-                "pieces": ["veste", "cardigan"],
-                "modifications": ["retiree", "tombee"],
-                "exposure_gain": 12,
-                "description": "Dans l'élan du baiser, ta veste glisse de tes épaules..."
-            },
-            "caresses": {
-                "pieces": ["chemisier", "robe"],
-                "modifications": ["largement_ouverte", "descendue_epaules"],
-                "exposure_gain": 18,
-                "description": "Ses mains expertes dénudent progressivement tes épaules..."
-            },
-
-            # Actions très intenses - déshabillement majeur
-            "baiser_profond": {
-                "pieces": ["soutien_gorge", "chemisier"],
-                "modifications": ["défait", "complètement_ouverte"],
-                "exposure_gain": 25,
-                "description": "La passion vous emporte, vos vêtements deviennent un obstacle..."
-            },
-            "caresses_intimes": {
-                "pieces": ["sous_vetements", "lingerie"],
-                "modifications": ["retiree", "mise_de_cote"],
-                "exposure_gain": 35,
-                "description": "Il écarte délicatement tes derniers voiles de pudeur..."
+            5: {  # Niveau maximal - nudité
+                "actions": ["retirer_soutien_gorge", "faire_glisser_culotte", "denuder_completement"],
+                "descriptions": [
+                    "Il dégrafe ton soutien-gorge d'un geste expert.",
+                    "Ta culotte glisse le long de tes jambes tremblantes.",
+                    "Tu te retrouves complètement nue devant son regard ardent."
+                ]
             }
         }
 
-        # Seuils pour feedback automatique
-        self.exposure_thresholds = {
-            10: "Tes vêtements commencent à révéler tes formes...",
-            25: "Tu te sens de plus en plus dévêtue sous son regard...",
-            40: "Une grande partie de ton corps est maintenant exposée...",
-            60: "Tu ne portes presque plus rien qui cache ton intimité...",
-            80: "Tes derniers vêtements ne tiennent plus qu'à un fil..."
+        # Modificateurs par lieu pour réalisme
+        self.location_clothing_modifiers = {
+            "bar": 0.3,      # Public - très peu de modifications
+            "voiture": 0.7,  # Semi-privé - modifications modérées  
+            "salon": 1.0,    # Privé - modifications normales
+            "chambre": 1.3   # Intime - modifications accentuées
         }
 
-        # Tracking pour feedback unique
-        self._exposure_feedback_given = {}
-
     def update(self, entities: List[Entity], delta_time: float = 0.0, **kwargs):
-        """Update système vêtements avec gestion automatique"""
+        """Update vêtements avec modifications contextuelles"""
 
-        # Traitement entities avec ClothingComponent
-        for entity in entities:
-            clothing = entity.get_component_of_type(ClothingComponent)
-            if clothing and clothing.is_dirty:
-                # Update stats dérivées
-                clothing._update_derived_stats()
+        # Pas d'update automatique - modifications via actions
+        pass
 
-                # Check seuils exposition pour feedback
-                self._check_exposure_feedback(entity, clothing)
-
-                clothing.mark_clean()
-
-    def apply_action_clothing_effects(self, player: Entity, action: str, 
-                                    context: Dict[str, Any]) -> Dict[str, Any]:
+    def apply_clothing_action(self, player: Entity, action_type: str, 
+                            escalation_level: int, location: str) -> Dict[str, Any]:
         """
-        Applique effets vêtements selon action NPC
+        Applique modification vêtements avec description
 
         Args:
             player: Entity player
-            action: Action NPC effectuée
-            context: Contexte (lieu, résistance, etc.)
+            action_type: Type d'action effectuée  
+            escalation_level: Niveau escalation (1-5)
+            location: Lieu actuel
 
         Returns:
-            Dict résultats modifications
+            Dict avec description et état
         """
+
         clothing = player.get_component_of_type(ClothingComponent)
         if not clothing:
-            return {"success": False, "error": "Pas de ClothingComponent"}
+            return {"success": False, "description": "", "visible_change": False}
 
-        # Vérification si action affecte vêtements
-        effect_data = self.action_clothing_effects.get(action)
-        if not effect_data:
-            return {"success": True, "no_clothing_effect": True}
+        # Modificateur lieu
+        location_mod = self.location_clothing_modifiers.get(location, 1.0)
 
-        # Sauvegarde état avant
-        exposure_before = clothing.get_exposure_level()
-        pieces_before = clothing.pieces.copy()
+        # Chance de modification selon escalation et lieu
+        base_chance = min(0.9, escalation_level * 0.15 * location_mod)
 
-        # Modification selon résistance joueur
-        player_resistance = context.get("resistance_level", 0.5)
+        if random.random() > base_chance:
+            return {"success": False, "description": "", "visible_change": False}
 
-        # Résistance forte = modifications réduites
-        if player_resistance > 0.8:
-            exposure_reduction = 0.5  # Moitié des effets
-            description_prefix = "Malgré tes tentatives de résistance, "
-        elif player_resistance > 0.5:
-            exposure_reduction = 0.7  # Effets réduits
-            description_prefix = "Tu essaies de garder tes vêtements en place mais "
-        else:
-            exposure_reduction = 1.0  # Effets complets
-            description_prefix = ""
+        # Sélection modification selon escalation
+        if escalation_level in self.clothing_escalation:
+            escalation_data = self.clothing_escalation[escalation_level]
+            chosen_action = random.choice(escalation_data["actions"])
+            description = random.choice(escalation_data["descriptions"])
 
-        # Application modifications avec résistance
-        target_pieces = effect_data["pieces"]
-        modifications = effect_data["modifications"]
-        base_exposure_gain = effect_data["exposure_gain"]
+            # Application modification au component
+            result = self._apply_specific_clothing_change(clothing, chosen_action, escalation_level)
 
-        # Sélection pièce affectée
-        available_pieces = [p for p in target_pieces if p in clothing.pieces]
-        if available_pieces:
-            import random
-            target_piece = random.choice(available_pieces)
-            target_modification = random.choice(modifications)
+            return {
+                "success": True,
+                "description": description,
+                "action": chosen_action,
+                "escalation_level": escalation_level,
+                "visible_change": True,
+                "exposure_level": result.get("new_exposure", 0)
+            }
 
-            # Application modification
-            result = clothing.modify_piece(
-                piece=target_piece,
-                modification=target_modification,
-                context=f"action_{action}"
-            )
+        return {"success": False, "description": "", "visible_change": False}
 
-            # Gain exposition avec résistance
-            final_exposure_gain = int(base_exposure_gain * exposure_reduction)
-            clothing.exposure_level = min(100, 
-                clothing.exposure_level + final_exposure_gain)
+    def _apply_specific_clothing_change(self, clothing: ClothingComponent, 
+                                      action: str, level: int) -> Dict[str, Any]:
+        """Applique changement spécifique à un vêtement"""
 
-            # Description adaptée
-            base_description = effect_data["description"]
-            final_description = description_prefix + base_description.lower() if description_prefix else base_description
+        # Mapping actions -> états vêtements
+        action_mappings = {
+            # Niveau 1
+            "ajuster_bretelles": ("robe", "ajustee"),
+            "lisser_tissu": ("jupe", "lissee"),
 
-        else:
-            # Pas de pièce disponible - gain exposition réduit
-            final_exposure_gain = int(base_exposure_gain * 0.3)
-            clothing.exposure_level = min(100, 
-                clothing.exposure_level + final_exposure_gain)
-            final_description = "Tes vêtements se désorganisent sous ses caresses..."
+            # Niveau 2  
+            "glisser_bretelle": ("robe", "bretelle_glissee"),
+            "remonter_leger_jupe": ("jupe", "legerement_remontee"),
+            "ouvrir_bouton_haut": ("chemisier", "bouton_ouvert"),
 
-        # État après modification
-        exposure_after = clothing.get_exposure_level()
-        pieces_after = clothing.pieces.copy()
+            # Niveau 3
+            "deboutonner_chemisier": ("chemisier", "deboutonne"),
+            "remonter_jupe": ("jupe", "remontee"),
+            "faire_glisser_robe": ("robe", "glissee_epaules"),
 
-        # Force dirty flag pour affichage
-        clothing.mark_dirty()
+            # Niveau 4
+            "retirer_chemisier": ("chemisier", "retire"),
+            "baisser_bretelles_soutien_gorge": ("soutien_gorge", "bretelles_baissees"),
+            "faire_tomber_jupe": ("jupe", "tombee"),
 
-        return {
-            "success": True,
-            "exposure_before": exposure_before,
-            "exposure_after": exposure_after,
-            "exposure_gain": final_exposure_gain,
-            "pieces_modified": len(pieces_before) != len(pieces_after),
-            "description": final_description,
-            "resistance_applied": player_resistance > 0.5,
-            "visible_change": final_exposure_gain >= 5
+            # Niveau 5
+            "retirer_soutien_gorge": ("soutien_gorge", "retire"),
+            "faire_glisser_culotte": ("culotte", "glissee"),
+            "denuder_completement": ("culotte", "retiree")
         }
 
-    def _check_exposure_feedback(self, entity: Entity, clothing: ClothingComponent):
-        """Vérifie seuils exposition et génère feedback automatique"""
+        if action in action_mappings:
+            piece_name, new_state = action_mappings[action]
 
-        current_exposure = clothing.get_exposure_level()
-        entity_id = entity.id
+            if hasattr(clothing, 'pieces') and piece_name in clothing.pieces:
+                clothing.pieces[piece_name]["state"] = new_state
+                clothing.pieces[piece_name]["last_modified"] = level
 
-        # Vérification seuils franchis
-        if entity_id not in self._exposure_feedback_given:
-            self._exposure_feedback_given[entity_id] = set()
+                # Mise à jour exposition
+                if hasattr(clothing, '_update_derived_stats'):
+                    clothing._update_derived_stats()
 
-        given_feedback = self._exposure_feedback_given[entity_id]
+                # Mark dirty pour affichage
+                clothing.mark_dirty()
 
-        for threshold, message in self.exposure_thresholds.items():
-            if (current_exposure >= threshold and 
-                threshold not in given_feedback):
+                return {
+                    "success": True,
+                    "piece_modified": piece_name,
+                    "new_state": new_state,
+                    "new_exposure": getattr(clothing, 'exposure_level', 0)
+                }
 
-                # Nouveau seuil franchi - feedback unique
-                self._exposure_feedback_given[entity_id].add(threshold)
+        return {"success": False}
 
-                # Ajout message au contexte pour affichage par game_session
-                # (système de messaging à implémenter)
-                print(f"\n👗 {message}")
-
-    def get_clothing_display_text(self, player: Entity) -> Dict[str, Any]:
+    def get_clothing_display_text(self, player: Entity) -> str:
         """Génère texte affichage état vêtements"""
 
         clothing = player.get_component_of_type(ClothingComponent)
         if not clothing:
-            return {"text": "", "exposure": 0, "visible": False}
+            return ""
 
-        exposure_level = clothing.get_exposure_level()
+        # Seulement si modifications visibles
+        if getattr(clothing, 'exposure_level', 0) == 0:
+            return ""
 
-        # Affichage seulement si modifications significatives
-        if exposure_level < 5:
-            return {"text": "", "exposure": exposure_level, "visible": False}
+        # Description des pièces modifiées
+        if hasattr(clothing, 'get_most_exposed_pieces'):
+            exposed_pieces = clothing.get_most_exposed_pieces(2)
 
-        # Description selon niveau exposition
-        if exposure_level < 15:
-            description = "Tes vêtements sont légèrement désordonnés"
-        elif exposure_level < 30:
-            description = "Ta tenue commence à se défaire"
-        elif exposure_level < 50:
-            description = "Tes vêtements révèlent beaucoup de peau"
-        elif exposure_level < 70:
-            description = "Tu es largement dénudée"
-        elif exposure_level < 90:
-            description = "Tu ne portes presque plus rien"
-        else:
-            description = "Tu es entièrement exposée à son regard"
+            if exposed_pieces:
+                descriptions = []
+                for piece_data in exposed_pieces:
+                    piece = piece_data["piece"]
+                    state = piece_data["state"]
+                    descriptions.append(f"{piece}: {state}")
 
-        # Détail pièces modifiées
-        modified_pieces = []
-        for piece, data in clothing.pieces.items():
-            if data["state"] != "normale":
-                piece_display = self._get_piece_display_name(piece)
-                state_display = self._get_state_display_name(data["state"])
-                modified_pieces.append(f"{piece_display}: {state_display}")
+                return "👗 " + " | ".join(descriptions)
 
-        details_text = " | ".join(modified_pieces) if modified_pieces else ""
+        return f"👗 Exposition: {getattr(clothing, 'exposure_level', 0)}%"
 
-        return {
-            "text": description,
-            "details": details_text,
-            "exposure": exposure_level,
-            "visible": True,
-            "pieces_count": len(modified_pieces)
-        }
-
-    def _get_piece_display_name(self, piece: str) -> str:
-        """Noms pièces pour affichage"""
-
-        names = {
-            "robe": "Robe",
-            "chemisier": "Chemisier", 
-            "jupe": "Jupe",
-            "pantalon": "Pantalon",
-            "soutien_gorge": "Soutien-gorge",
-            "culotte": "Culotte",
-            "bas": "Bas",
-            "chaussures": "Chaussures",
-            "veste": "Veste",
-            "bretelles_robe": "Bretelles"
-        }
-        return names.get(piece, piece.title())
-
-    def _get_state_display_name(self, state: str) -> str:
-        """États pour affichage"""
-
-        states = {
-            "legerement_deplacee": "déplacée",
-            "glissee": "glissée",
-            "remontee": "remontée", 
-            "retroussee": "retroussée",
-            "plis_froissee": "froissée",
-            "boutonne_partiellement": "entrouverte",
-            "entrouverte": "ouverte",
-            "retiree": "enlevée",
-            "tombee": "tombée",
-            "largement_ouverte": "grande ouverte",
-            "descendue_epaules": "sur les épaules",
-            "défait": "défait",
-            "complètement_ouverte": "complètement ouverte",
-            "mise_de_cote": "écartée"
-        }
-        return states.get(state, state)
-
-    def reset_clothing_state(self, player: Entity):
-        """Remet vêtements état initial"""
-
-        clothing = player.get_component_of_type(ClothingComponent)
-        if clothing:
-            clothing.reset_to_initial_state()
-            clothing.mark_dirty()
-
-            # Reset feedback donné
-            entity_id = player.id
-            if entity_id in self._exposure_feedback_given:
-                self._exposure_feedback_given[entity_id].clear()
-
-    def get_clothing_progression_summary(self, player: Entity) -> Dict[str, Any]:
-        """Résumé progression vêtements pour debug/analytics"""
-
-        clothing = player.get_component_of_type(ClothingComponent)
-        if not clothing:
-            return {"error": "No clothing component"}
-
-        modified_count = sum(1 for data in clothing.pieces.values() 
-                           if data["state"] != "normale")
-
-        return {
-            "total_pieces": len(clothing.pieces),
-            "modified_pieces": modified_count,
-            "exposure_level": clothing.get_exposure_level(),
-            "modification_count": len(clothing.modification_history),
-            "last_modification": clothing.modification_history[-1] if clothing.modification_history else None
-        }
-
-# SYSTÈME VÊTEMENTS V2.0: Modifications graduelles + feedback + réalisme
+# CLOTHING SYSTEM V2.0: Modifications graduelles + descriptions immersives
