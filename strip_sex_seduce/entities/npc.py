@@ -154,7 +154,8 @@ class NPCMale(Entity):
         chosen_action = self._intelligent_action_selection(
             available_actions, 
             personality, 
-            player_resistance
+            player_resistance,
+            context
         )
 
         # Apprentissage pour futures interactions
@@ -204,7 +205,8 @@ class NPCMale(Entity):
 
     def _intelligent_action_selection(self, available_actions: List[str], 
                                     personality: PersonalityComponent, 
-                                    resistance: float) -> str:
+                                    resistance_level: float,
+                                    context: Dict[str, Any]) -> str:
         """Sélection intelligente d'action selon personnalité"""
 
         action_scores = {}
