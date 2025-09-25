@@ -1,0 +1,33 @@
+{
+  "game": {
+    "title": "Strip, Sex & Seduce",
+    "version": "1.0.0",
+    "language": "fr",
+    "adult_content": true,
+    "min_age": 18,
+    "debug_mode": false
+  },
+  "performance": {
+    "max_memory_mb": 5,
+    "target_response_ms": 50,
+    "cache_dialogues": true,
+    "profiling_enabled": false
+  },
+  "gameplay": {
+    "difficulty": "normal",
+    "content_level": "full",
+    "auto_save": false,
+    "session_only": true
+  },
+  "interface": {
+    "show_stats": true,
+    "show_clothing_status": true,
+    "show_help_hints": true,
+    "quick_commands": [
+      "r",
+      "a",
+      "f",
+      "l"
+    ]
+  }
+}

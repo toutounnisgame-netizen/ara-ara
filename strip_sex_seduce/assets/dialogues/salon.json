@@ -1,0 +1,9 @@
+{
+  "location": "salon",
+  "actions": {
+    "rapprochement": [
+      "Il s'assoit plus près de toi sur le canapé...",
+      "L'atmosphère devient plus intime dans le salon..."
+    ]
+  }
+}
