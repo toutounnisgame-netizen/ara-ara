@@ -1,8 +1,0 @@
-{
-  "type": "direct",
-  "traits": {
-    "dominance": 0.9,
-    "patience": 0.3
-  },
-  "description": "NPC direct et assertif"
-}
