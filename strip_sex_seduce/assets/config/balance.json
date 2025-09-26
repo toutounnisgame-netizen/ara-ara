@@ -1,0 +1,69 @@
+{
+  "stats_modifiers": {
+    "bar": {
+      "volonte_mult": 1.2,
+      "excitation_mult": 0.8
+    },
+    "voiture": {
+      "volonte_mult": 1.0,
+      "excitation_mult": 1.1
+    },
+    "salon": {
+      "volonte_mult": 0.8,
+      "excitation_mult": 1.3
+    },
+    "chambre": {
+      "volonte_mult": 0.6,
+      "excitation_mult": 1.5
+    }
+  },
+  "escalation_thresholds": {
+    "bar_to_voiture": {
+      "min_excitation": 30,
+      "max_volonte": 80
+    },
+    "voiture_to_salon": {
+      "min_excitation": 50,
+      "max_volonte": 65
+    },
+    "salon_to_chambre": {
+      "min_excitation": 70,
+      "max_volonte": 50
+    }
+  },
+  "action_effects": {
+    "compliment": {
+      "volonte": -3,
+      "excitation": 4
+    },
+    "conversation_charme": {
+      "volonte": -4,
+      "excitation": 3
+    },
+    "regard_insistant": {
+      "volonte": -2,
+      "excitation": 6
+    },
+    "contact_epaule": {
+      "volonte": -6,
+      "excitation": 8
+    },
+    "rapprochement_physique": {
+      "volonte": -5,
+      "excitation": 10
+    },
+    "main_cuisse": {
+      "volonte": -10,
+      "excitation": 15
+    },
+    "caresses_douces": {
+      "volonte": -8,
+      "excitation": 12
+    }
+  },
+  "performance_targets": {
+    "max_response_ms": 50,
+    "max_memory_mb": 5,
+    "cache_hit_rate_min": 0.8
+  }
+}
