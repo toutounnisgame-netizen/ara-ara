@@ -10,17 +10,18 @@ from typing import Dict, List, Any, Optional
 class Environment(Entity):
     """Environment COMPATIBLE avec ActionComponent existant"""
 
-    def __init__(self, location: str):
+    def __init__(self, location: str, display_name: str = None, 
+                 privacy_level: float = None, escape_difficulty: float = None):
         super().__init__(f"env_{location}")
-
+    
         # Identification
         self.location = location
-        self.display_name = self._get_display_name(location)
-
-        # Propriétés étendues - TOUTES MÉTHODES IMPLÉMENTÉES
-        self.privacy_level = self._get_privacy_level(location)
+        self.display_name = display_name or self._get_display_name(location)
+    
+        # Propriétés étendues - AVEC PARAMÈTRES OU FALLBACK
+        self.privacy_level = privacy_level if privacy_level is not None else self._get_privacy_level(location)
+        self.escape_difficulty = escape_difficulty if escape_difficulty is not None else self._get_escape_difficulty(location)
         self.social_visibility = self._get_social_visibility(location)
-        self.escape_difficulty = self._get_escape_difficulty(location)
         self.intimacy_multiplier = self._get_intimacy_multiplier(location)
 
         # Contraintes et règles
