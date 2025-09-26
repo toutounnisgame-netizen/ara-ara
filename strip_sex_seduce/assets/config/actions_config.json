@@ -1,0 +1,164 @@
+{
+    "actions": {
+        "dialogue_flirt": {
+            "name": "Flirt charmeur",
+            "category": "dialogue",
+            "base_effectiveness": 0.6,
+            "arousal_impact": 8,
+            "energy_cost": 2,
+            "requirements": {"seduction_level": 0},
+            "descriptions": {
+                "bar": "Tu lui lances un regard enjoleur : \"Tu me plais beaucoup...\"",
+                "voiture": "Dans l'intimité de la voiture : \"J'ai envie de toi...\"",
+                "salon": "Tu murmures sensuellement : \"Prends-moi...\"",
+                "chambre": "Tu gémis : \"Baise-moi maintenant...\""
+            }
+        },
+        "dialogue_provocation": {
+            "name": "Provocation directe",
+            "category": "dialogue", 
+            "base_effectiveness": 0.7,
+            "arousal_impact": 12,
+            "energy_cost": 3,
+            "requirements": {"seduction_level": 2, "privacy_level": 0.4},
+            "descriptions": {
+                "bar": "Tu provoque : \"Tu aimes mes seins ?\"",
+                "salon": "Tu défie : \"Montre-moi ta bite...\"",
+                "chambre": "Tu ordonnes : \"Lèche-moi partout !\""
+            }
+        },
+        "contact_discret": {
+            "name": "Contact discret",
+            "category": "physical",
+            "base_effectiveness": 0.65,
+            "arousal_impact": 10,
+            "energy_cost": 4,
+            "requirements": {"seduction_level": 1},
+            "descriptions": {
+                "bar": "Tu effleures sa main \'accidentellement\'...",
+                "voiture": "Ta main se pose sur sa cuisse...",
+                "salon": "Tu te colles contre lui sur le canapé..."
+            }
+        },
+        "caresse_cuisse": {
+            "name": "Caresses cuisses",
+            "category": "physical",
+            "base_effectiveness": 0.75,
+            "arousal_impact": 15,
+            "energy_cost": 5,
+            "requirements": {"seduction_level": 3, "privacy_level": 0.5},
+            "descriptions": {
+                "voiture": "Ta main remonte lentement le long de sa cuisse...",
+                "salon": "Tes doigts tracent des cercles sur ses cuisses musclées...",
+                "chambre": "Tu caresses ses cuisses en approchant de son sexe..."
+            }
+        },
+        "deboutonner_chemisier": {
+            "name": "Déboutonner chemisier",
+            "category": "clothing",
+            "base_effectiveness": 0.8,
+            "arousal_impact": 18,
+            "energy_cost": 3,
+            "requirements": {"seduction_level": 2},
+            "descriptions": {
+                "bar": "Tu déboutonnes discrètement, révélant ton décolleté...",
+                "salon": "Tu ouvres lentement ton chemisier devant lui...",
+                "chambre": "Tu te déshabilles sensuellement pour lui..."
+            }
+        },
+        "strip_tease_complet": {
+            "name": "Strip-tease complet",
+            "category": "clothing",
+            "base_effectiveness": 0.9,
+            "arousal_impact": 30,
+            "energy_cost": 12,
+            "requirements": {"seduction_level": 6, "privacy_level": 0.8},
+            "descriptions": {
+                "salon": "Tu exécutes un strip-tease langoureux qui le rend fou...",
+                "chambre": "Nue devant lui, tu es la déesse de ses fantasmes..."
+            }
+        },
+        "caresse_intime": {
+            "name": "Caresses intimes",
+            "category": "physical",
+            "base_effectiveness": 0.85,
+            "arousal_impact": 25,
+            "energy_cost": 8,
+            "requirements": {"seduction_level": 5, "privacy_level": 0.7},
+            "descriptions": {
+                "salon": "Tes mains explorent intimement son corps...",
+                "chambre": "Tu le caresses là où il en a le plus envie..."
+            }
+        },
+        "baiser_profond": {
+            "name": "Baiser passionné",
+            "category": "physical",
+            "base_effectiveness": 0.8,
+            "arousal_impact": 22,
+            "energy_cost": 6,
+            "requirements": {"seduction_level": 4, "privacy_level": 0.6},
+            "descriptions": {
+                "voiture": "Vous vous embrassez passionnément dans la voiture...",
+                "salon": "Vos langues se mélangent dans un baiser torride...",
+                "chambre": "Il t'embrasse comme s'il voulait te dévorer..."
+            }
+        },
+        "simulation_sexuelle": {
+            "name": "Simulation sexuelle",
+            "category": "explicit",
+            "base_effectiveness": 0.95,
+            "arousal_impact": 40,
+            "energy_cost": 15,
+            "requirements": {"seduction_level": 8, "privacy_level": 1.0},
+            "descriptions": {
+                "chambre": "Vous faites l'amour avec une passion dévorante..."
+            }
+        },
+        "use_champagne": {
+            "name": "Partager champagne",
+            "category": "item_usage",
+            "base_effectiveness": 0.7,
+            "arousal_impact": 12,
+            "energy_cost": 0,
+            "requirements": {"item": "champagne"},
+            "descriptions": {
+                "bar": "Vous trinquez, vos regards se croisent intensément...",
+                "salon": "Le champagne coule sur tes lèvres, il ne peut résister..."
+            }
+        },
+        "use_vibrator": {
+            "name": "Démonstration vibrator",
+            "category": "item_usage", 
+            "base_effectiveness": 0.9,
+            "arousal_impact": 35,
+            "energy_cost": 8,
+            "requirements": {"item": "vibrator_discret", "privacy_level": 0.8},
+            "descriptions": {
+                "salon": "Tu sors ton jouet intime, il déglutit difficilement...",
+                "chambre": "Tu lui montres ton plaisir avec ton vibrator..."
+            }
+        }
+    },
+    "menus": {
+        "main": {
+            "title": "Menu Principal - Actions Disponibles",
+            "categories": ["dialogue", "physical", "clothing", "items", "minigames"]
+        },
+        "dialogue": {
+            "title": "Dialogue Sexy - Que lui dire ?",
+            "subtitle": "Utilise tes mots pour l'exciter"
+        },
+        "physical": {
+            "title": "Actions Physiques - Comment l'approcher ?", 
+            "subtitle": "Le contact direct qui fait mouche"
+        },
+        "clothing": {
+            "title": "Vêtements - Contrôle ton exhibition",
+            "subtitle": "Déshabille-toi pour le rendre fou"
+        },
+        "items": {
+            "title": "Items - Que veux-tu utiliser ?",
+            "subtitle": "Objets pour pimenter la situation"
+        }
+    }
+}

@@ -1,0 +1,203 @@
+{
+    "items": {
+        "champagne": {
+            "name": "Champagne Dom Pérignon",
+            "category": "alcohol",
+            "description": "Champagne de luxe pour ambiance romantique et désinhibition",
+            "effects": {
+                "disinhibition": 12,
+                "confidence_boost": 8,
+                "shared_arousal": 5
+            },
+            "usage_type": "consumable",
+            "location_restrictions": [],
+            "arousal_requirements": 0,
+            "confidence_requirements": 0,
+            "energy_cost": 0,
+            "cooldown_turns": 0,
+            "narrative_descriptions": {
+                "bar": "Tu proposes de partager une coupe, l'ambiance devient plus intime...",
+                "voiture": "Vous buvez au goulot, complices et désinhibés...",
+                "salon": "Le champagne coule sur tes lèvres, il ne peut détacher ses yeux...",
+                "chambre": "Vous buvez au même verre, l'intimité monte d'un cran...",
+                "default": "Le champagne crée une ambiance parfaite."
+            }
+        },
+        "chocolat_aphrodisiaque": {
+            "name": "Chocolat aphrodisiaque",
+            "category": "aphrodisiac", 
+            "description": "Chocolat noir aux épices aphrodisiaques",
+            "effects": {
+                "libido_boost": 20,
+                "confidence_boost": 10,
+                "energy_restore": 15
+            },
+            "usage_type": "consumable",
+            "location_restrictions": [],
+            "arousal_requirements": 10,
+            "confidence_requirements": 20,
+            "energy_cost": 0,
+            "cooldown_turns": 2,
+            "narrative_descriptions": {
+                "bar": "Vous partagez le chocolat, la sensualité monte...",
+                "salon": "Tu lui donnes à manger sensuellement...",
+                "chambre": "Vous vous nourrissez mutuellement, c'est érotique...",
+                "default": "Le chocolat éveille vos sens."
+            }
+        },
+        "vibrator_discret": {
+            "name": "Vibrator rose discret",
+            "category": "toy",
+            "description": "Petit vibrator pour démonstration de désir",
+            "effects": {
+                "self_arousal": 25,
+                "demonstration": 30,
+                "shock_value": 35
+            },
+            "usage_type": "reusable",
+            "location_restrictions": ["salon", "chambre"],
+            "arousal_requirements": 60,
+            "confidence_requirements": 70,
+            "energy_cost": 5,
+            "cooldown_turns": 3,
+            "narrative_descriptions": {
+                "salon": "Tu sors discrètement ton petit ami, ses yeux s'écarquillent...",
+                "chambre": "Tu lui montres comment tu te donnes du plaisir...",
+                "default": "Ton vibrator le rend fou de désir."
+            }
+        },
+        "preservatifs": {
+            "name": "Préservatifs ultra-fins",
+            "category": "protection",
+            "description": "Protection pour le grand final",
+            "effects": {
+                "safety_assurance": 100,
+                "anticipation": 20
+            },
+            "usage_type": "consumable",
+            "location_restrictions": ["chambre"],
+            "arousal_requirements": 80,
+            "confidence_requirements": 60,
+            "energy_cost": 0,
+            "cooldown_turns": 0,
+            "narrative_descriptions": {
+                "chambre": "Tu sors les préservatifs, il comprend tes intentions...",
+                "default": "La protection, c'est sexy et responsable."
+            }
+        },
+        "telephone": {
+            "name": "Smartphone",
+            "category": "tech",
+            "description": "Pour photos/vidéos ou interruptions dramatiques",
+            "effects": {
+                "photo_opportunity": 15,
+                "interruption_drama": 10
+            },
+            "usage_type": "reusable",
+            "location_restrictions": [],
+            "arousal_requirements": 30,
+            "confidence_requirements": 50,
+            "energy_cost": 2,
+            "cooldown_turns": 1,
+            "narrative_descriptions": {
+                "bar": "Tu prends une photo de vous deux, complices...",
+                "chambre": "Tu immortalises ce moment intime...",
+                "default": "Ton téléphone peut créer des souvenirs."
+            }
+        },
+        "musique": {
+            "name": "Playlist séduction",
+            "category": "tech",
+            "description": "Musique d'ambiance pour strip-tease et moments intimes",
+            "effects": {
+                "ambiance": 20,
+                "strip_tease_bonus": 25,
+                "rhythm": 15
+            },
+            "usage_type": "reusable",
+            "location_restrictions": ["salon", "chambre"],
+            "arousal_requirements": 40,
+            "confidence_requirements": 30,
+            "energy_cost": 0,
+            "cooldown_turns": 0,
+            "narrative_descriptions": {
+                "salon": "La musique sensuelle remplit la pièce...",
+                "chambre": "Le rythme guide vos corps enlacés...",
+                "default": "La musique crée l'ambiance parfaite."
+            }
+        },
+        "eclairage_tamise": {
+            "name": "Éclairage tamisé",
+            "category": "tech",
+            "description": "Ambiance lumineuse intime",
+            "effects": {
+                "intimacy": 15,
+                "mystery": 10,
+                "photo_quality": 20
+            },
+            "usage_type": "reusable",
+            "location_restrictions": ["salon", "chambre"],
+            "arousal_requirements": 20,
+            "confidence_requirements": 20,
+            "energy_cost": 0,
+            "cooldown_turns": 0,
+            "narrative_descriptions": {
+                "salon": "La lumière douce sublime ta beauté...",
+                "chambre": "L'éclairage intime révèle tes courbes...",
+                "default": "La lumière tamisée est parfaite pour l'intimité."
+            }
+        },
+        "menottes_soie": {
+            "name": "Menottes en soie",
+            "category": "toy",
+            "description": "Pour jeux BDSM légers et contrôle du pouvoir",
+            "effects": {
+                "bdsm_light": 30,
+                "power_play": 25,
+                "trust": 20
+            },
+            "usage_type": "reusable",
+            "location_restrictions": ["chambre"],
+            "arousal_requirements": 85,
+            "confidence_requirements": 80,
+            "energy_cost": 0,
+            "cooldown_turns": 5,
+            "narrative_descriptions": {
+                "chambre": "Tu sors les menottes avec un sourire coquin...",
+                "default": "Les menottes promettent des jeux intenses."
+            }
+        }
+    },
+    "combinations": {
+        "champagne+chocolat": {
+            "name": "Aphrodisiaque Parfait",
+            "combined_effects": {
+                "arousal_boost": 35,
+                "disinhibition": 25,
+                "shared_experience": 30
+            },
+            "description": "La combinaison parfaite pour une soirée inoubliable",
+            "narrative": "Champagne et chocolat : vos sens sont exacerbés..."
+        },
+        "musique+eclairage": {
+            "name": "Ambiance Ultime",
+            "combined_effects": {
+                "perfect_ambiance": 40,
+                "strip_tease_bonus": 35,
+                "intimacy": 25
+            },
+            "description": "Ambiance parfaite pour moments intimes",
+            "narrative": "Musique et lumière tamisée : l'ambiance est magique..."
+        },
+        "vibrator+preservatifs": {
+            "name": "Préparation Complète",
+            "combined_effects": {
+                "ultimate_preparation": 50,
+                "anticipation": 40,
+                "safety_pleasure": 45
+            },
+            "description": "Prête pour toutes les possibilités",
+            "narrative": "Plaisir et protection : tu es prête à tout..."
+        }
+    }
+}
