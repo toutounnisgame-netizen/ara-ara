@@ -1,0 +1,1034 @@
+# 📋 CAHIER DES CHARGES V2.0 - REVERSE SEDUCTION
+# "STRIP, SEX & SEDUCE: REVERSE SEDUCTION"
+
+**RÉVOLUTION GAMEPLAY: DE VISUAL NOVEL À SIMULATION INTERACTIVE**
+
+---
+
+## 📋 IDENTIFICATION PROJET V2.0
+
+**Nom Projet:** Strip, Sex & Seduce: Reverse Seduction  
+**Concept Révolutionnaire:** Jeu de séduction inversé - Femme contrôlant l'escalation  
+**Type:** Simulation interactive érotique avec contrôle total  
+**Plateforme:** Python Console + Interface améliorée  
+**Architecture:** Entity-Component-System (ECS) étendu  
+**Langue:** Français  
+**Public:** Adulte 18+ personnel (masturbation-friendly)  
+**Date Début:** 26 septembre 2025  
+**Durée Estimée:** 17-25 jours développement (4 phases)  
+**Base Technique:** Code V3.1 existant (8.5/10 qualité)
+
+---
+
+## 🎯 OBJECTIFS RÉVOLUTIONNAIRES
+
+### **PRINCIPAL:** Transformer Visual Novel passif en Simulation interactive
+✅ **Concept Unique:** Premier jeu drague inversée avec contrôle total  
+✅ **Gameplay:** 17+ actions contextuelles vs 3 actions actuelles  
+✅ **Sessions:** 5-10 minutes masturbation-optimisé  
+✅ **Innovation:** Fantasy pouvoir féminin rare dans genre eroge  
+
+### **TECHNIQUE:** Étendre architecture ECS excellente existante
+✅ **Conservation:** Base technique V3.1 (7.4/10) - Excellente  
+✅ **Extension:** +4 Components, +5 Systems nouveaux  
+✅ **Performance:** Maintenir <5MB RAM, <50ms réponse  
+✅ **Compatibilité:** Réutiliser 70% code existant  
+
+### **EXPÉRIENCE:** Transformation complète engagement utilisateur
+✅ **Contrôle:** Joueur initie au lieu de subir  
+✅ **Agency:** Vraies décisions avec impact visible  
+✅ **Variabilité:** Multiple paths et rejouabilité  
+✅ **Immersion:** Textes riches + mini-jeux intégrés  
+
+---
+
+## 🔄 TRANSFORMATION GAMEPLAY MAJEURE
+
+### **ANCIEN SYSTÈME (V3.1) - Score 3.1/10:**
+```
+CONCEPT: Homme drague femme (classique)
+ACTIONS: r/a/f seulement (3 choix total)
+RÔLE: Subir les avances du NPC
+OBJECTIF: Résister ou céder passivement
+GENRE: Visual Novel linéaire
+DURÉE: 2-3 minutes puis fini
+REPLAY: Aucune (une fois vu = terminé)
+```
+
+### **NOUVEAU SYSTÈME (V2.0) - Potentiel 9.5/10:**
+```
+CONCEPT: Femme contrôle sa séduction (révolutionnaire)
+ACTIONS: 17+ actions contextuelles + menus spécialisés
+RÔLE: Initier et contrôler escalation
+OBJECTIF: Exciter l'homme ET l'utilisateur
+GENRE: Simulation interactive de séduction
+DURÉE: 5-10 minutes session optimisée
+REPLAY: Infinie (variabilité actions/réactions)
+```
+
+---
+
+## 🎲 NOUVELLES MÉCANIQUES GAMEPLAY
+
+### **1. SYSTÈME ACTIONS MULTIPLES CONTEXTUELLES**
+
+#### **Menus Spécialisés:**
+- **Menu Dialogue** (5-8 options selon contexte/lieu)
+- **Menu Actions Physiques** (6-10 options selon intimité)  
+- **Menu Vêtements** (Actions selon pièces portées)
+- **Menu Items** (Objets utilisables: alcool, toys, etc.)
+- **Menu Lieux** (Proposer changement lieu)
+- **Menu Timing** (Actions temporelles spécialisées)
+
+#### **Progression Actions par Lieu:**
+```
+BAR (Public - Niveau 1):
+- Flirt dialogue sophistiqué (8 options)
+- Ajustements vêtements discrets 
+- Exhibition contrôlée (décolleté, jambes)
+- Contacts "accidentels" répétés
+- Provocation visuelle subtile
+
+VOITURE (Semi-privé - Niveau 2):  
+- Actions physiques directes (caresses)
+- Déshabillage progressif
+- Positions suggestives
+- Jeu avec accessoires voiture
+- Escalation contacts intimes
+
+SALON (Privé - Niveau 3):
+- Strip-tease interactif
+- Massage sensuel mutuel  
+- Déshabillage complet
+- Préliminaires dirigés
+- Items érotiques introduction
+
+CHAMBRE (Intime - Niveau 4):
+- Simulation sexuelle complète
+- Contrôle positions/rythme
+- Mini-jeux sexuels avancés
+- Multiple orgasmes gestion
+- Toys et fetish play
+```
+
+### **2. SYSTÈME VÊTEMENTS INTERACTIF RÉVOLUTIONNAIRE**
+
+#### **Gestion Pièce par Pièce Détaillée:**
+```python
+CHEMISIER:
+- déboutonner_un → "Révéler décolleté progressivement"
+- déboutonner_plusieurs → "Exposition seins selon soutien-gorge" 
+- ouvrir_complètement → "Seins presque nus, bretelles visibles"
+- enlever_complètement → "Topless + soutien-gorge seulement"
+- ajuster_décolleté → "Contrôler niveau exhibition"
+
+JUPE:
+- remonter_légèrement → "Révéler cuisse discrètement"
+- remonter_haut → "Mini-jupe ultra-provocante"
+- baisser_zip → "Faciliter accès/retrait futur"
+- enlever → "En sous-vêtements bas seulement"
+- repositionner → "Ajuster accès discret/exhibition"
+
+SOUTIEN-GORGE:
+- dégrafer_un → "Alléger maintien, plus mouvement"
+- dégrafer_complet → "Seins libres sous tissu"
+- descendre_bretelles → "Épaules nues + décolleté extrême"
+- enlever → "Seins nus complets"
+- réajuster → "Jeu exhibition/dissimulation"
+
+CULOTTE:
+- descendre_hanches → "Révéler string/ligne pubis"
+- descendre_genoux → "Accès facilité préliminaires"
+- enlever_complètement → "Nudité bas complète"  
+- déplacer_côté → "Accès sans retrait complet"
+- jouer_élastique → "Provocation visuelle tease"
+```
+
+### **3. SYSTÈME ITEMS ÉROTIQUES**
+
+#### **Catégories Items Gameplay:**
+```python
+ITEMS_SEDUCTION = {
+    "alcool": {
+        "champagne": "Ambiance + désinhibition mutuelle",
+        "shots": "Désinhibition rapide intensive", 
+        "vin": "Progression sensuelle romantique"
+    },
+    "aphrodisiaques": {
+        "chocolat": "Boost libido des deux +15%",
+        "huîtres": "Symbolique + excitation naturelle",
+        "gingembre": "Réchauffement corporel intense"
+    },
+    "toys": {
+        "vibrator": "Démonstration + auto-plaisir",
+        "plug_anal": "Préparation + provocation",
+        "menottes": "BDSM léger contrôlé",
+        "blindfold": "Jeu confiance sensoriel"
+    },
+    "tech": {
+        "téléphone": "Photos/vidéos + interruptions",
+        "musique": "Strip-tease + ambiance fuck",
+        "éclairage": "Ambiance intime modulable"
+    },
+    "protection": {
+        "préservatifs": "Sexe safe consensuel",
+        "OPTION_aiguilles": "Percer préservatifs (risqué/kinky)"
+    }
+}
+```
+
+### **4. MINI-JEUX INTÉGRÉS ÉROTIQUES**
+
+#### **A) Strip-Tease Interactif:**
+```
+GAMEPLAY:
+- Sélection tempo musique (influence mouvement style)
+- Choix séquence déshabillage (ordre pièces)
+- Timing révélations (suspense vs direct)
+- Réactions homme temps réel (feedback visuel)
+- Score selon créativité/timing/tease
+
+VARIATIONS:
+- Lent sensuel (tension maximale)
+- Rapide direct (excitation immédiate)
+- Taquin avec remises (frustration contrôlée) 
+- Thématique (uniforme, lingerie, etc.)
+```
+
+#### **B) Massage Sensuel Zones:**
+```
+ZONES PROGRESSIVES:
+- Épaules/nuque (relaxation → sensualité)
+- Dos complet (intimité croissante)
+- Cuisses (approche zones érogènes)
+- Torse/abdomen (contact direct peau)
+- Zones génitales (transition vers sexuel)
+
+TECHNIQUES CONTRÔLÉES:
+- Pression: légère → ferme → intense
+- Mouvement: circulaire → linéaire → caresses
+- Rythme: lent → rapide → variable
+- Huiles: normale → chauffante → comestible
+```
+
+#### **C) Dés du Désir:**
+```
+CONCEPT: Hasard contrôlé par joueur
+- Dé ACTION (baiser, caresse, lécher, sucer, pénétrer)
+- Dé ZONE (cou, seins, cuisses, sexe, anus, bouche)  
+- Dé INTENSITÉ (doux, normal, intense, sauvage)
+- Dé DURÉE (5sec, 30sec, 2min, jusqu'orgasme)
+
+CONTRÔLES JOUEUR:
+- Relancer dés non-désirés (3 fois max)
+- Modifier résultat (coût "séduction points")
+- Proposer variante ("Et si on faisait...")
+- Veto absolu (conserve contrôle total)
+```
+
+#### **D) Simulation Sexuelle Complète:**
+```
+POSITIONS DÉBLOQUÉES:
+Bar: Caresses légères seulement
+Voiture: Positions assises + oral  
+Salon: Positions canapé + oral complet
+Chambre: TOUTES positions + anal + fetish
+
+MÉCANIQUES CONTRÔLE:
+- Rythme: joueur contrôle lent → rapide
+- Intensité: doux → violent selon envie
+- Durée: préliminaires → pénétration → orgasme
+- Variations: changements position fluides
+- Communication: dirty talk intégré
+
+FEEDBACK IMMERSIF:
+- Excitation homme: réactions vocales réalistes
+- Sensations joueur: descriptions tactiles
+- Progression orgasme: tension crescendo  
+- Orgasmes multiples possibles
+- Récupération + rounds supplémentaires
+```
+
+---
+
+## 📊 SYSTÈME STATS RÉVOLUTIONNAIRE
+
+### **Stats Joueur (Femme Séductrice):**
+```python
+PLAYER_STATS_V2 = {
+    "libido": 0-100,           # Désir sexuel joueur
+    "séduction": 0-100,        # Capacité exciter homme  
+    "confiance": 0-100,        # Assurance dans actions osées
+    "exhibitionism": 0-100,    # Confort avec exhibition/nudité
+    "énergie": 0-100,         # Stamina pour actions répétées
+    "contrôle": 0-100         # Contrôle situation/homme
+}
+```
+
+### **Stats NPC (Homme Cible):**
+```python  
+NPC_STATS_V2 = {
+    "excitation": 0-100,      # OBJECTIF JOUEUR - arousal level
+    "patience": 100-0,        # Diminue quand trop excité
+    "dominance": 0-100,       # Tendance prendre contrôle
+    "satisfaction": 0-100,    # Satisfaction générale expérience
+    "stamina": 0-100,         # Endurance sexuelle
+    "precum": 0-100          # Indicateur excitation pré-éjaculatoire
+}
+```
+
+### **Système Progression Mutuelle:**
+- **Plus femme séduit** → **Plus homme excité** → **Plus actions débloquées**
+- **Plus intimité atteinte** → **Plus lieux accessibles** → **Plus options érotiques**
+- **Plus confiance acquise** → **Actions plus osées possibles** → **Réactions plus intenses**
+
+---
+
+## 🏗️ ARCHITECTURE TECHNIQUE V2.0
+
+### **CONSERVATION BASE EXISTANTE V3.1:**
+```
+✅ CONSERVER (Excellent 7.4/10):
+- Core ECS (entity.py, component.py, system.py)
+- Components existants (stats.py, clothing.py, etc.)
+- Systems actuels (ai_system.py, dialogue_system.py, etc.)
+- Entities de base (player.py, npc.py, environment.py)
+- Assets structure (config/, dialogues/, personalities/)
+```
+
+### **EXTENSIONS REQUISES:**
+
+#### **Nouveaux Components:**
+```python
+# Inventory et items érotiques
+class InventoryComponent(Component):
+    items: Dict[str, int] = {}           # Items possédés avec quantités
+    equipped: Dict[str, str] = {}        # Items actuellement équipés/utilisés
+    usage_history: List[str] = []        # Historique utilisation pour analytics
+
+# Menu actions contextuelles
+class ActionMenuComponent(Component):
+    available_actions: List[str] = []    # Actions possibles selon contexte
+    menu_state: str = "main"             # Menu actuellement ouvert
+    last_selection: str = ""             # Dernière action choisie
+    menu_history: List[str] = []         # Historique navigation menus
+
+# Système séduction avancé
+class SeductionComponent(Component):
+    seduction_level: int = 0             # Niveau maîtrise séduction
+    techniques_mastered: List[str] = []  # Techniques débloquées
+    success_rate: float = 0.5            # Taux succès actions séduction
+    seduction_style: str = "balanced"    # Style: subtle/direct/playful/dominant
+
+# Progression et unlocks
+class ProgressionComponent(Component):
+    unlocked_actions: Set[str] = set()   # Actions débloquées
+    unlocked_locations: Set[str] = set() # Lieux accessibles  
+    unlocked_items: Set[str] = set()     # Items disponibles achat/usage
+    achievements: Dict[str, bool] = {}   # Accomplissements débloqquués
+    progression_points: int = 0          # Points progression totaux
+```
+
+#### **Nouveaux Systems:**
+```python
+# Gestion menus contextuels
+class MenuSystem(System):
+    def generate_contextual_menu(self, location, arousal, clothing, items)
+    def handle_menu_selection(self, selection, context)
+    def update_available_actions(self, player_state, npc_state)
+    def build_menu_display(self, menu_type, options)
+
+# Gestion inventory et items
+class InventorySystem(System):
+    def use_item(self, item_name, target, context)
+    def equip_item(self, item_name, slot)
+    def get_item_effects(self, item_name, situation)
+    def check_item_availability(self, item_name, location)
+
+# Mécaniques séduction avancées  
+class SeductionSystem(System):
+    def calculate_seduction_effectiveness(self, action, context, npc_state)
+    def update_npc_arousal(self, seduction_value, action_type)
+    def check_unlock_conditions(self, current_stats, location)
+    def generate_seduction_feedback(self, action_result)
+
+# Système progression et unlocks
+class ProgressionSystem(System):
+    def check_action_unlocks(self, seduction_level, location, npc_arousal)
+    def check_location_unlocks(self, stats, story_progress)
+    def calculate_progression_points(self, actions_performed)
+    def handle_achievement_unlock(self, achievement_type)
+
+# Mini-jeux intégrés
+class MiniGameSystem(System):
+    def start_minigame(self, game_type, context, difficulty)
+    def handle_minigame_input(self, game_state, player_input)
+    def calculate_minigame_results(self, performance_metrics)
+    def integrate_results_to_main_game(self, results)
+```
+
+#### **Systems Modifiés (Non Remplacement):**
+```python
+# Extension AISystem → NPCArousalSystem
+class NPCArousalSystem(AISystem):  # Hérite de AISystem existant
+    def update_arousal_responses(self, seduction_input, context)
+    def generate_arousal_reactions(self, arousal_level, personality)  
+    def calculate_patience_impact(self, current_arousal, actions)
+    # Conserve toutes méthodes AISystem existantes
+
+# Extension DialogueSystem → ContextualActionSystem  
+class ContextualActionSystem(DialogueSystem):  # Hérite de DialogueSystem
+    def generate_seduction_descriptions(self, action, context, arousal)
+    def create_npc_arousal_reactions(self, action_result, npc_state)
+    def build_contextual_narrative(self, action_sequence, location)
+    # Conserve tout le système dialogue existant
+```
+
+---
+
+## 🎨 INTERFACE UTILISATEUR RÉVOLUTIONNAIRE
+
+### **Interface Console Améliorée:**
+```
+╔══════════════════════════════════════════════════════════════════╗
+║  🔥 STRIP, SEX & SEDUCE V2.0 - REVERSE SEDUCTION 🔥             ║
+╠══════════════════════════════════════════════════════════════════╣
+║  📍 LIEU: Le Moonlight - Bar Lounge                             ║
+║  👤 MARCUS: Très excité (87/100) | Patience: Faible (23/100)    ║
+║       Precum visible | Respiration accélérée                    ║
+╠══════════════════════════════════════════════════════════════════╣
+║  💪 LIBIDO: 76/100  🎭 SÉDUCTION: 82/100  ⚡ ÉNERGIE: 65/100     ║
+║  🔥 CONFIANCE: 91/100  👁️ EXHIB: 78/100  ✋ CONTRÔLE: 88/100     ║
+╠══════════════════════════════════════════════════════════════════╣
+║  👗 TENUE ACTUELLE:                                              ║
+║   • Chemisier: 4/6 boutons ouverts → Décolleté provocant        ║
+║   • Jupe: Remontée mi-cuisse → Culottes visibles parfois        ║
+║   • Soutien-gorge: Bretelles glissées → Épaules nues sexy       ║
+║   • Culotte: En place mais visible → Dentelle rouge             ║
+║   💥 EXPOSITION TOTALE: 67% (Très provocante)                   ║
+╠══════════════════════════════════════════════════════════════════╣
+║  🎒 INVENTORY: Champagne🍾, Préservatifs🛡️, Vibrator🔮, Tel📱    ║
+║  🆙 UNLOCKS: Strip-tease, Massage, +12 actions nouvelles        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+💭 MARCUS: "Bordel... tu es absolument irrésistible. Ce décolleté me 
+   rend dingue et tes jambes... Comment tu fais pour être si sexy ?"
+   
+🔥 SON EXCITATION: Il ajuste son pantalon discrètement, son regard 
+   dévore littéralement ton corps. Ses mains tremblent légèrement.
+
+🎯 TES OPTIONS DE SÉDUCTION:
+─────────────────────────────────────────────────────────────────
+┌─ 💬 DIALOGUE SEXY (6)     ┌─ ⏰ TIMING PARFAIT (4)
+│  → "J'ai envie de toi"    │  → Moment idéal action
+│  → "Touche mes seins"     │  → Pause suspense  
+│  → Dirty talk extrême     │  → Rush escalation
+├─ 👋 ACTIONS PHYSIQUES (8) ├─ 🍾 ITEMS ÉROTIQUES (4)
+│  → Caresse sa cuisse      │  → Champagne partage
+│  → Guide sa main à toi    │  → Vibrator tease
+│  → Frottement contre lui  │  → Préservatif jeu
+├─ 👗 VÊTEMENTS (12)        ├─ 📍 CHANGER LIEU (2)
+│  → Ouvrir chemisier +     │  → "Allons en privé..."
+│  → Remonter jupe ++       │  → "Chez toi maintenant"
+│  → Dégrafer soutien-gorge │
+├─ 🎭 SÉDUCTION PRO (6)     └─ 🎲 MINI-JEUX (4)
+│  → Strip-tease sur place     → 🎪 Strip-tease musical
+│  → Exhibition extrême        → 💆 Massage mutuel
+│  → Jeu de domination         → 🎲 Dés du désir
+│                              → 🛏️ Simulation directe
+
+🔥 ACTIONS SPÉCIALES DÉBLOQUÉES:
+• Exhibition seins (confiance >90%)
+• Masturbation devant lui (excitation >85%)  
+• "Baise-moi maintenant" (contrôle >85%)
+
+> Ton choix: _
+```
+
+### **Menu Vêtements Détaillé:**
+```
+╔═══════════════════════════════════════════════════════════════════╗
+║  👗 MENU VÊTEMENTS - CONTRÔLE TOTAL DE TON EXHIBITION            ║  
+╠═══════════════════════════════════════════════════════════════════╣
+║  📋 CHEMISIER (4/6 boutons ouverts - Décolleté très visible):    ║
+║   1. Ouvrir un bouton de plus → Seins presque à l'air            ║
+║   2. Ouvrir TOUS les boutons → Chemisier complètement ouvert     ║
+║   3. Enlever complètement → Topless + soutien-gorge seulement    ║
+║   4. Faire glisser sur épaules → Look sexy décontracté           ║
+║   5. Nouer sous les seins → Ventre nu + push-up effet            ║
+║                                                                   ║
+║  📋 JUPE (Remontée mi-cuisse - Provocante):                      ║  
+║   6. Remonter jusqu'aux hanches → Mini extrême, culotte visible  ║
+║   7. Baisser zip complètement → Prête à tomber au sol            ║
+║   8. Enlever lentement → Show sensuel, reste en sous-vêtements   ║
+║   9. La remonter tout en le regardant → Exhibition contrôlée     ║
+║   10. Position assise provocante → Laisser jambes s'écarter      ║
+║                                                                   ║
+║  📋 SOUS-VÊTEMENTS (Le grand frisson):                           ║
+║   11. 🔥 Dégrafer soutien-gorge → Seins libres sous chemisier    ║
+║   12. 🔥 Descendre culotte → Sexe accessible, reste aux chevilles║
+║   13. 🔥 Strip intégral → Complètement nue devant lui            ║
+║   14. 🔥 Garder que culotte → Seins nus + tease final            ║
+║   15. 🔥 Lingerie jeu → Positionner pour accès sans retirer      ║
+║                                                                   ║
+║  🎯 EFFETS VISUELS EN TEMPS RÉEL:                                 ║
+║   👁️ Ses yeux : [████████████████████████] Hypnotisé 100%       ║
+║   🔥 Son excitation: [██████████████████ ] Critique 87%          ║
+║   💦 État pantalon: [████████████████ ] Tente visible 85%        ║
+║                                                                   ║
+║   0. ⬅️ RETOUR MENU PRINCIPAL                                      ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+💭 MARCUS: "Putain... continue, n'arrête pas. Tu me rends complètement 
+   fou. Je n'ai jamais vu une femme aussi sexy de ma vie..."
+
+> Ton choix exhibitions: _
+```
+
+---
+
+## 📈 GAMEPLAY FLOW OPTIMISÉ
+
+### **Session 5-10 Minutes Structure:**
+```
+🔥 PHASE 1: SÉDUCTION INITIALE (1-2 min)
+├─ Évaluation réactions homme via actions test
+├─ Ajustements vêtements pour gauge interest  
+├─ Items ambiance (alcool, musique) setup
+├─ Build-up excitation mutuelle contrôlée
+└─ Unlock première vague actions (8-10 nouvelles)
+
+🔥 PHASE 2: ESCALATION CONTRÔLÉE (2-4 min)
+├─ Actions physiques directes + caresses  
+├─ Déshabillage progressif stratégique player-driven
+├─ Mini-jeux courts (strip-tease, massage léger)
+├─ Transition lieu selon désir joueur
+└─ Unlock deuxième vague actions (12-15 nouvelles)
+
+🔥 PHASE 3: APOGÉE SEXUELLE (2-4 min)  
+├─ Actions directes/explicites + simulation
+├─ Contrôle complet positions/rythme/intensité
+├─ Mini-jeux sexuels avancés intégrés
+├─ Gestion orgasmes (sien ET sien) 
+└─ Multiple rounds possibles selon énergie
+
+🔥 POST-CLIMAX: CONTINUATION INFINIE (optionnel)
+├─ Pas de "game over" - jeu continue
+├─ Options post-sexe (câlins, round 2, etc.)
+├─ Grossesse possible mais jeu continue
+├─ Reset stats pour nouvelle session
+└─ Sauvegarde accomplissements/unlocks
+```
+
+### **Système Unlocks Progressifs:**
+```
+EXCITATION HOMME → ACTIONS DÉBLOQUÉES:
+
+0-25%: Actions de base
+├─ Flirt dialogue (6 options)
+├─ Ajustements vêtements légers (4 options)
+├─ Exhibition subtile (3 options)
+└─ Items ambiance (2 options)
+
+26-50%: Actions physiques 
+├─ Caresses légères (5 options)
+├─ Déshabillage partiel (6 options)
+├─ Contacts "accidentels" (4 options)  
+└─ Provocation visuelle (3 options)
+
+51-75%: Actions directes
+├─ Strip-tease mini-jeu (1 unlock)
+├─ Caresses intimes (8 options)
+├─ Déshabillage complet (7 options)
+├─ Massage sensuel mini-jeu (1 unlock)
+└─ Transition lieux (2 options)
+
+76-90%: Actions explicites
+├─ Préliminaires dirigés (12 options)
+├─ Jeux érotiques avancés (6 options) 
+├─ Toys introduction (4 options)
+├─ Dés désir mini-jeu (1 unlock)
+└─ Positions préparatoires (8 options)
+
+91-100%: Sexe complet
+├─ Simulation sexuelle complète (mini-jeu)
+├─ Toutes positions disponibles (15+)
+├─ Contrôle orgasmes/multiples (système)
+├─ Fetish/kink avancés (10+ options)
+└─ TOUS items/toys disponibles (20+)
+```
+
+---
+
+## 🗓️ ROADMAP DÉVELOPPEMENT RÉALISTE
+
+### **📅 PHASE 1: FONDATIONS ÉTENDUES (3-5 jours)**
+**🎯 Objectif:** Extension architecture ECS + nouveaux components de base
+
+#### **Tâches Critiques:**
+1. **Analyse code V3.1 existant** - Compréhension architecture actuelle
+2. **Nouveaux Components création:**
+   - `InventoryComponent` - Items et équipements
+   - `ActionMenuComponent` - Menus contextuels  
+   - `SeductionComponent` - Mécaniques séduction
+   - `ProgressionComponent` - Unlocks et achievements
+3. **Extension Systems existants:**
+   - `AISystem` → `NPCArousalSystem` (héritage)
+   - `DialogueSystem` → `ContextualActionSystem` (héritage)
+4. **Tests architecture étendue** - Validation ECS extensions
+
+#### **Livrables:**
+✅ Architecture ECS étendue fonctionnelle  
+✅ Nouveaux components opérationnels  
+✅ Tests unitaires étendus (70%+ coverage)  
+✅ Compatibilité V3.1 maintenue  
+
+#### **Risques:**
+⚠️ Complexity sous-estimée extensions ECS  
+⚠️ Régression code existant  
+
+### **📅 PHASE 2: SYSTÈMES & MÉCANIQUES (5-7 jours)**
+**🎯 Objectif:** Nouveaux systems + mécaniques gameplay révolutionnaires
+
+#### **Tâches Critiques:**  
+1. **Nouveaux Systems création:**
+   - `MenuSystem` - Gestion menus contextuels complets
+   - `InventorySystem` - Items et effets gameplay
+   - `SeductionSystem` - Mécaniques séduction avancées  
+   - `ProgressionSystem` - Unlocks et achievements
+2. **Actions contextuelles 17+** - Implémentation complète
+3. **Système vêtements avancé** - États détaillés et interactions
+4. **Interface utilisateur enrichie** - Menus et affichage améliorés
+5. **Integration systems dans game loop** - Performance maintenue
+
+#### **Livrables:**
+✅ Systems gameplay complets opérationnels  
+✅ 17+ actions contextuelles implémentées  
+✅ Interface utilisateur révolutionnaire  
+✅ Game loop intégré sans régression performance  
+
+#### **Risques:**
+⚠️ Complexity interactions entre systems  
+⚠️ Performance dégradée par volume actions  
+
+### **📅 PHASE 3: MINI-JEUX & CONTENU (4-6 jours)**  
+**🎯 Objectif:** Mini-jeux intégrés + contenu massif
+
+#### **Tâches Critiques:**
+1. **MiniGameSystem architecture** - Framework mini-jeux
+2. **Mini-jeux implémentation:**
+   - Strip-tease interactif (musique + timing)
+   - Massage sensuel (zones + techniques)
+   - Dés du désir (hasard contrôlé) 
+   - Simulation sexuelle complète (positions + contrôle)
+3. **Contenu narratif massif:**
+   - Dialogues séduction par niveau arousal
+   - Descriptions actions contextuelles
+   - Réactions NPC détaillées selon excitation
+4. **Items système complet** - Effets et intégrations
+
+#### **Livrables:**
+✅ 4 mini-jeux intégrés fonctionnels  
+✅ Volume contenu 10x augmenté vs V3.1  
+✅ Items système opérationnel  
+✅ Expérience utilisateur fluide  
+
+#### **Risques:**
+⚠️ Volume contenu sous-estimé  
+⚠️ Mini-jeux complexity technique  
+
+### **📅 PHASE 4: POLISH & ÉQUILIBRAGE (5-7 jours)**
+**🎯 Objectif:** Finalisation + tests exhaustifs + optimisation
+
+#### **Tâches Critiques:**  
+1. **NPCArousalSystem détaillé** - Réactions homme sophistiquées
+2. **Équilibrage complet gameplay** - Progression optimale 5-10min
+3. **Tests exhaustifs tous scénarios** - Validation expérience complète
+4. **Optimisation performance** - Maintien <50ms malgré complexity
+5. **Documentation utilisateur complète** - Guide et instructions
+6. **Package livrable final** - Déploiement prêt
+
+#### **Livrables:**
+✅ Jeu V2.0 complet équilibré  
+✅ Performance objectifs respectés  
+✅ Documentation complète  
+✅ Package déployable  
+
+#### **Risques:**
+⚠️ Bugs edge cases découverts tardivement  
+⚠️ Équilibrage complexe nécessitant iterations  
+
+### **📊 RÉCAPITULATIF DÉVELOPPEMENT:**
+```
+DURÉE TOTALE: 17-25 jours (4 phases)
+COMPLEXITÉ: Élevée (extensions ECS + gameplay révolutionnaire)
+RESSOURCES: 1 développeur expérimenté Python/ECS
+MILESTONE CRITIQUE: Fin Phase 2 (systems validés)
+RÉUTILISATION CODE: ~70% base V3.1 conservée
+NOUVEAUX MODULES: ~15 fichiers Python nouveaux
+EXTENSIONS: ~8 fichiers Python modifiés
+TESTS: Coverage 80%+ maintenue
+```
+
+---
+
+## ⚙️ VARIABLES & STRUCTURES DE DONNÉES V2.0
+
+### **VARIABLES SYSTÈME ÉTENDUES:**
+```python
+# Configuration V2.0
+MAX_MEMORY_MB = 8                    # Augmenté pour mini-jeux
+RESPONSE_TIME_MS = 50                # Maintenu malgré complexity
+MAX_CONCURRENT_MINIGAMES = 1         # Limitation performance
+MAX_INVENTORY_ITEMS = 20             # Limite items simultanés
+MAX_UNLOCKED_ACTIONS = 50            # Limite actions débloquées
+MIN_SESSION_MINUTES = 5              # Session minimum recommandée
+MAX_SESSION_MINUTES = 15             # Session maximum optimale
+
+# Gameplay V2.0  
+MAX_AROUSAL_LEVEL = 100              # NPC excitation maximum
+MIN_AROUSAL_FOR_UNLOCKS = 25         # Seuil premiers unlocks
+ESCALATION_THRESHOLD = 15            # Points pour escalation lieu
+SEDUCTION_SUCCESS_BASE_RATE = 0.7    # Taux succès base actions
+MINIGAME_DIFFICULTY_PROGRESSION = 1.2 # Augmentation difficulté
+ORGASM_THRESHOLD = 95                # Seuil orgasme automatique
+ENERGY_CONSUMPTION_PER_ACTION = 2    # Coût énergie par action
+CONFIDENCE_GAIN_PER_SUCCESS = 3      # Gain confiance succès action
+```
+
+### **STRUCTURES DE DONNÉES ACTIONS:**
+```python
+@dataclass
+class SeductionAction:
+    """Structure complète action séduction"""
+    id: str                          # Identifiant unique
+    name: str                        # Nom affiché utilisateur
+    category: str                    # dialogue/physical/clothing/item/timing
+    description: str                 # Description détaillée action
+    requirements: Dict[str, Any]     # Prérequis (stats, items, location)
+    effects: Dict[str, int]          # Effets sur stats (arousal, confidence)
+    unlock_condition: str            # Condition déblocage
+    energy_cost: int                 # Coût énergétique
+    success_rate_base: float         # Taux succès de base
+    arousal_impact: int              # Impact excitation NPC
+    confidence_impact: int           # Impact confiance joueur
+    location_modifiers: Dict         # Modificateurs par lieu
+    clothing_dependencies: List      # Dépendances état vêtements
+    item_dependencies: List          # Items requis
+    narrative_variants: List[str]    # Variantes textuelles
+    cooldown: int                    # Temps recharge action
+    
+@dataclass  
+class MiniGameSession:
+    """Session mini-jeu complète"""
+    game_type: str                   # strip_tease/massage/dice/simulation
+    difficulty: float                # Difficulté 0.0-1.0  
+    duration_seconds: int            # Durée prévue
+    scoring: Dict[str, int]          # Système points
+    controls: Dict[str, str]         # Contrôles disponibles
+    context: Dict[str, Any]          # Contexte situation (location, arousal)
+    rewards: Dict[str, Any]          # Récompenses succès
+    failure_consequences: Dict       # Conséquences échec
+    performance_metrics: Dict        # Métriques performance joueur
+    
+@dataclass
+class ClothingState:
+    """État détaillé vêtement"""
+    piece_name: str                  # chemisier/jupe/soutien_gorge/culotte
+    current_state: str               # en_place/modifie/retire
+    modification_level: int          # Niveau modification 0-10
+    exposure_amount: float           # Niveau exposition 0.0-1.0
+    accessibility: str               # blocked/limited/open/full
+    visual_impact: int               # Impact visuel sur NPC
+    modification_history: List       # Historique modifications
+    available_actions: List[str]     # Actions possibles sur pièce
+    dependencies: List[str]          # Autres pièces affectées
+```
+
+### **INVENTORY SYSTÈME:**
+```python
+@dataclass
+class InventoryItem:
+    """Item inventory avec effets gameplay"""
+    item_id: str                     # Identifiant unique
+    name: str                        # Nom affiché
+    category: str                    # alcool/aphrodisiac/toy/tech/protection
+    description: str                 # Description effet
+    effects: Dict[str, Any]          # Effets stats/gameplay
+    usage_type: str                  # consumable/reusable/permanent
+    location_restrictions: List      # Lieux usage autorisé
+    arousal_requirements: int        # Arousal min pour usage
+    confidence_requirements: int     # Confiance min pour usage
+    energy_cost: int                 # Coût énergétique usage
+    cooldown_turns: int              # Tours avant réutilisation
+    narrative_descriptions: Dict     # Descriptions contextuelles
+    combination_effects: Dict        # Effets combinaisons avec autres items
+    npc_reaction_modifiers: Dict     # Modificateurs réaction NPC
+    unlock_requirements: str         # Conditions pour obtenir item
+
+ITEM_CATALOG_V2 = {
+    # Alcool
+    "champagne": InventoryItem(
+        item_id="champagne",
+        name="Champagne Dom Pérignon",
+        category="alcool", 
+        effects={"disinhibition": +15, "confidence": +10, "arousal_mutual": +8},
+        usage_type="consumable",
+        location_restrictions=["bar", "salon", "chambre"],
+        narrative_descriptions={
+            "bar": "Tu partages une coupe avec lui, vos regards se croisent...",
+            "salon": "Le champagne coule sur tes lèvres, il ne peut détacher ses yeux...",  
+            "chambre": "Vous buvez au même verre, l'intimité monte d'un cran..."
+        }
+    ),
+    
+    # Toys
+    "vibrator": InventoryItem(
+        item_id="vibrator_discreet",
+        name="Vibrator discret",
+        category="toy",
+        effects={"self_arousal": +25, "npc_fascination": +30, "dominance": +15},
+        usage_type="reusable", 
+        location_restrictions=["salon", "chambre"],
+        arousal_requirements=60,
+        confidence_requirements=70,
+        narrative_descriptions={
+            "salon": "Tu sors discrètement ton petit ami, ses yeux s'écarquillent...",
+            "chambre": "Tu lui montres ton jouet favori, il déglutit difficilement..."
+        }
+    ),
+    
+    # Protection avec option kinky
+    "preservatifs": InventoryItem(
+        item_id="preservatifs_premium", 
+        name="Préservatifs (+ aiguilles optionnel)",
+        category="protection",
+        effects={"safety": +100, "npc_preparation": +20},
+        usage_type="consumable",
+        special_options={"percer_option": {"risk": +50, "kink": +30}},
+        narrative_descriptions={
+            "chambre": "Tu sors un préservatif, il comprend tes intentions...",
+            "percer_variant": "Tu montres l'aiguille avec un sourire coquin... risqué mais excitant..."
+        }
+    )
+}
+```
+
+---
+
+## 📋 TEMPLATES DE DÉVELOPPEMENT
+
+### **Template Component Extension:**
+```python
+"""
+Template pour créer nouveau Component V2.0
+Compatible avec architecture ECS existante
+"""
+from core.component import Component
+from typing import Dict, List, Any, Optional
+from dataclasses import dataclass, field
+
+@dataclass
+class NewComponent(Component):
+    """Description component"""
+    
+    # Données principales
+    main_data: Dict[str, Any] = field(default_factory=dict)
+    
+    # État temporaire
+    current_state: str = "default"
+    is_dirty: bool = False
+    
+    # Historique pour analytics
+    history: List[Dict] = field(default_factory=list)
+    
+    def apply_change(self, change_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Applique modification avec logging"""
+        old_state = self.current_state
+        # Logic application
+        self.current_state = "new_state"
+        
+        # Logging
+        self.history.append({
+            "timestamp": datetime.now().isoformat(),
+            "old_state": old_state, 
+            "new_state": self.current_state,
+            "change_data": change_data
+        })
+        
+        self.mark_dirty()
+        return {"success": True, "old_state": old_state, "new_state": self.current_state}
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Sérialisation"""
+        return {
+            "main_data": self.main_data,
+            "current_state": self.current_state,
+            "history_count": len(self.history)
+        }
+```
+
+### **Template System Extension:**
+```python
+"""
+Template pour créer nouveau System V2.0
+Compatible avec architecture ECS existante
+"""
+from core.system import System
+from core.entity import Entity
+from typing import List, Dict, Any, Optional
+
+class NewSystem(System):
+    """Description system"""
+    
+    def __init__(self):
+        super().__init__("NewSystem")
+        # Configuration system
+        self.config = {}
+        # Analytics
+        self.analytics = {"operations": 0, "errors": 0}
+    
+    def update(self, entities: List[Entity], delta_time: float = 0.0, **kwargs):
+        """Update principal - appelé chaque tour"""
+        for entity in entities:
+            if self._should_process_entity(entity):
+                self._process_entity(entity, **kwargs)
+        
+        # Analytics update
+        self.analytics["operations"] += 1
+    
+    def _should_process_entity(self, entity: Entity) -> bool:
+        """Filtre entities à traiter"""
+        # Logic filtrage
+        return True
+    
+    def _process_entity(self, entity: Entity, **kwargs):
+        """Traitement spécifique entity"""
+        # Logic traitement
+        pass
+    
+    def get_system_status(self) -> Dict[str, Any]:
+        """Status pour debug/monitoring"""
+        return {
+            "system_name": self.name,
+            "analytics": self.analytics,
+            "config": self.config
+        }
+```
+
+### **Template Mini-Game:**
+```python
+"""
+Template mini-jeu intégré V2.0
+"""
+from typing import Dict, Any, List
+from dataclasses import dataclass
+
+@dataclass
+class MiniGameResult:
+    success: bool
+    score: int
+    performance_rating: str  # poor/good/excellent
+    effects: Dict[str, int]  # Effets sur stats principales
+    narrative_result: str    # Description résultat pour utilisateur
+
+class MiniGameTemplate:
+    """Base class mini-jeux"""
+    
+    def __init__(self, game_type: str, difficulty: float):
+        self.game_type = game_type
+        self.difficulty = difficulty
+        self.state = "initialized" 
+        self.player_inputs = []
+        
+    def start_game(self, context: Dict[str, Any]) -> str:
+        """Démarre mini-jeu avec contexte"""
+        self.state = "running"
+        return self._generate_start_description(context)
+    
+    def handle_input(self, player_input: str) -> Dict[str, Any]:
+        """Traite input joueur"""
+        if self.state != "running":
+            return {"error": "Game not running"}
+            
+        self.player_inputs.append(player_input)
+        return self._process_input(player_input)
+    
+    def calculate_result(self) -> MiniGameResult:
+        """Calcule résultat final"""
+        # Logic calcul performance
+        score = self._calculate_score()
+        rating = self._get_rating(score)
+        effects = self._calculate_effects(score)
+        narrative = self._generate_result_narrative(score, rating)
+        
+        return MiniGameResult(
+            success=score > 50,
+            score=score,
+            performance_rating=rating,
+            effects=effects,
+            narrative_result=narrative
+        )
+    
+    def _generate_start_description(self, context: Dict[str, Any]) -> str:
+        """Génère description démarrage"""
+        return f"Mini-jeu {self.game_type} commence..."
+    
+    def _process_input(self, input_str: str) -> Dict[str, Any]:
+        """Traite input spécifique"""
+        return {"processed": True}
+    
+    def _calculate_score(self) -> int:
+        """Calcule score selon performance"""
+        return 75  # Placeholder
+    
+    def _get_rating(self, score: int) -> str:
+        """Convertit score en rating"""
+        if score >= 80: return "excellent"
+        elif score >= 60: return "good" 
+        else: return "poor"
+    
+    def _calculate_effects(self, score: int) -> Dict[str, int]:
+        """Calcule effets stats selon score"""
+        return {"confidence": score//10, "arousal": score//8}
+    
+    def _generate_result_narrative(self, score: int, rating: str) -> str:
+        """Génère description résultat"""
+        return f"Performance {rating} (score: {score})"
+```
+
+---
+
+## 🎯 CONCLUSION & VALIDATION
+
+### **📊 TRANSFORMATION ATTENDUE:**
+```
+SCORE ACTUEL V3.1:     3.1/10 (Visual Novel passif)
+SCORE CIBLE V2.0:      9.5/10 (Simulation révolutionnaire)  
+GAIN TRANSFORMATION:   +6.4 points
+
+DÉVELOPPEMENT REQUIS:  17-25 jours (réaliste)
+RÉUTILISATION CODE:    70% base V3.1 conservée
+RISQUE TECHNIQUE:      FAIBLE (architecture ECS solide)
+ORIGINALITÉ MARCHÉ:    TRÈS ÉLEVÉE (concept rare)
+```
+
+### **✅ FAISABILITÉ CONFIRMÉE:**
+- **Architecture ECS existante = PARFAITE** pour extensions complexes
+- **Code base V3.1 = EXCELLENTE QUALITÉ** pour construction
+- **Scope réaliste** pour développement solo 
+- **Innovation concept** validée marché eroge
+
+### **🚀 PRÊT POUR IMPLÉMENTATION:**
+- **Cahier charges complet** ✅
+- **Architecture détaillée** ✅ 
+- **Roadmap réaliste** ✅
+- **Templates développement** ✅
+- **Structures données** ✅
+
+### **🏆 OBJECTIF FINAL:**
+**Créer le premier jeu de drague inversée avec contrôle total du joueur, transformant l'excellent moteur technique V3.1 en expérience révolutionnaire de simulation érotique interactive de 5-10 minutes optimisée pour masturbation satisfaisante avec 50+ actions contextuelles et 4 mini-jeux intégrés.**
+
+---
+
+**📋 CAHIER DES CHARGES V2.0 - READY FOR PRODUCTION! 🚀**
