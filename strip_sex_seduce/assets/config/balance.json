@@ -1,0 +1,46 @@
+{
+    "seduction_base_values": {
+        "starting_level": 0,
+        "max_level": 10,
+        "xp_per_level": [100, 120, 150, 180, 220, 260, 310, 360, 420, 500],
+        "success_rate_base": 0.5,
+        "success_rate_max": 0.95
+    },
+    "arousal_mechanics": {
+        "player_starting": 0,
+        "npc_starting": 0,
+        "escalation_thresholds": {
+            "location_voiture": 30,
+            "location_salon": 65,
+            "location_chambre": 85
+        },
+        "action_impacts": {
+            "subtle": {"min": 3, "max": 8},
+            "direct": {"min": 8, "max": 15},
+            "physical": {"min": 12, "max": 25},
+            "explicit": {"min": 20, "max": 35}
+        }
+    },
+    "privacy_modifiers": {
+        "bar": {"privacy": 0.2, "action_effectiveness": 0.8},
+        "voiture": {"privacy": 0.6, "action_effectiveness": 1.0},
+        "salon": {"privacy": 0.8, "action_effectiveness": 1.2},
+        "chambre": {"privacy": 1.0, "action_effectiveness": 1.5}
+    },
+    "energy_system": {
+        "starting_energy": 100,
+        "action_costs": {
+            "dialogue": 2,
+            "physical_light": 4,
+            "physical_medium": 6,
+            "physical_intense": 10,
+            "minigame": 15
+        },
+        "recovery_rate": 5
+    },
+    "progression_rates": {
+        "unlock_frequency": "every_3_levels",
+        "achievement_requirements_multiplier": 1.0,
+        "bonus_xp_perfect_actions": 1.5
+    }
+}

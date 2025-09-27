@@ -1,0 +1,71 @@
+{
+  "compliment": {
+    "low_resistance": [
+      "Il te sourit avec assurance : 'Tu es vraiment irrésistible ce soir...'",
+      "'Je ne peux détacher mes yeux de toi', murmure-t-il en se rapprochant.",
+      "Son regard brûlant parcourt ta silhouette : 'Absolument magnifique.'",
+      "'Tu illumines tout ce bar', dit-il d'une voix veloutée.",
+      "Il se penche vers toi : 'Tu es d'une beauté à couper le souffle.'"
+    ],
+    "medium_resistance": [
+      "Il lève son verre vers toi : 'À la plus belle femme de ce bar.'",
+      "'Tu as quelque chose de... spécial', dit-il avec un sourire charmeur.",
+      "Il effleure ta main : 'Tu es ravissante.'",
+      "'Permettez-moi de vous dire que vous avez un charme fou.'",
+      "Un sourire admiratif : 'Vous êtes vraiment élégante.'"
+    ],
+    "high_resistance": [
+      "Il te complimente avec respect : 'Vous avez une élégance naturelle.'",
+      "'Permettez-moi de vous dire que vous êtes très belle.'",
+      "Un sourire poli : 'J'espère que cette soirée vous plaît.'",
+      "'Vous avez un style remarquable', dit-il respectueusement.",
+      "Il vous salue : 'C'est un plaisir de faire votre connaissance.'"
+    ]
+  },
+  "regard_insistant": {
+    "low_resistance": [
+      "Il te fixe intensément, son regard plongé dans le tien sans détourner les yeux.",
+      "Ses yeux te déshabillent littéralement, un sourire carnassier aux lèvres.",
+      "Il soutient ton regard avec une intensité troublante, comme s'il lisait en toi.",
+      "Son regard affamé explore chaque détail de ton visage et de ton corps.",
+      "Il te fixe avec une intensité prédatrice qui te fait frissonner."
+    ],
+    "medium_resistance": [
+      "Il te fixe avec insistance, cherchant à capter ton attention.",
+      "Son regard se pose sur toi avec une intensité qui te met mal à l'aise.",
+      "Il ne cesse de te regarder, un petit sourire énigmatique aux coins des lèvres.",
+      "Tu sens son regard peser sur toi depuis l'autre bout du bar.",
+      "Il soutient ton regard quelques secondes de trop avant de sourire."
+    ],
+    "high_resistance": [
+      "Il te lance des regards appuyés de temps à autre.",
+      "Tu croises son regard plusieurs fois, il semble t'observer.",
+      "Il te fixe brièvement avant de détourner les yeux avec un sourire.",
+      "Des coups d'œil discrets mais répétés dans ta direction.",
+      "Il vous observe avec un intérêt poli mais persistant."
+    ]
+  },
+  "conversation_charme": {
+    "low_resistance": [
+      "Il se penche vers ton oreille : 'Dis-moi ce qui te fait vraiment vibrer...'",
+      "'Tu m'intrigues... j'aimerais découvrir tous tes secrets', souffle-t-il.",
+      "Sa main caresse la tienne : 'Parlons de désir...'",
+      "'J'ai l'impression qu'on partage une connexion spéciale', murmure-t-il.",
+      "Il approche ses lèvres de ton oreille : 'Tu me troubles énormément...'"
+    ],
+    "medium_resistance": [
+      "Il se rapproche : 'Raconte-moi ce qui te passionne dans la vie.'",
+      "'Tu as l'air mystérieuse... j'aimerais te connaître mieux.'",
+      "Un sourire séducteur : 'Qu'est-ce qui te rend heureuse ?'",
+      "'Vous semblez être quelqu'un de fascinant', dit-il en se rapprochant.",
+      "Il engage une conversation intime sur vos centres d'intérêt."
+    ],
+    "high_resistance": [
+      "Il engage poliment : 'Que faites-vous dans la vie ?'",
+      "'Cette ambiance vous plaît-elle ?'",
+      "Une conversation respectueuse : 'Vous venez souvent ici ?'",
+      "'J'espère que vous passez une bonne soirée.'",
+      "Il entame une discussion courtoise sur des sujets généraux."
+    ]
+  }
+}

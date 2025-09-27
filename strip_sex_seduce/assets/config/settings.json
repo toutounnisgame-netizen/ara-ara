@@ -1,0 +1,40 @@
+{
+    "game": {
+        "title": "Strip, Sex & Seduce V2.0 - Reverse Seduction",
+        "version": "2.0.0",
+        "concept": "Simulation séduction inversée - Contrôle total joueur",
+        "debug_mode": false,
+        "developer_mode": false
+    },
+    "performance": {
+        "max_memory_mb": 8,
+        "target_response_ms": 50,
+        "cache_enabled": true,
+        "benchmark_enabled": true
+    },
+    "gameplay": {
+        "difficulty": "dynamic",
+        "auto_save": false,
+        "auto_escalation": true,
+        "reverse_seduction_mode": true,
+        "player_control_percentage": 95,
+        "session_duration_minutes": "5-10"
+    },
+    "interface": {
+        "show_stats": true,
+        "show_help_hints": true,
+        "rich_dialogues": true,
+        "contextual_menus": true,
+        "progress_indicators": true,
+        "analytics_tracking": true
+    },
+    "features_v2": {
+        "multiple_action_menus": true,
+        "inventory_system": true,
+        "seduction_techniques": true,
+        "mini_games": true,
+        "progression_unlocks": true,
+        "achievement_system": true,
+        "clothing_detailed": true
+    }
+}
