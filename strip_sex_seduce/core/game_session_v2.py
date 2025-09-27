@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-GameSessionV2 STANDALONE CORRIGÉ - REVERSE SEDUCTION
-Version avec noms fichiers corrects du projet GitHub
+GameSessionV2 STANDALONE FINAL - REVERSE SEDUCTION
+Version avec signature record_player_action() CORRECTE
 """
 # Core ECS imports
 from core.system import SystemManager
@@ -12,57 +12,63 @@ from core.entity import Entity
 from entities.player import PlayerCharacter
 from entities.npc import NPCMale
 from entities.environment import Environment
-from entities.game_state import GameState  # CORRIGÉ: game_state.py pas gamestate.py
+from entities.game_state import GameState
 
 # Utils 
 from utils.performance import PerformanceMonitor
 from utils.logger import GameLogger
 
-# Systems avec noms probables
+# Systems avec fallbacks robustes
 try:
     from systems.stats_system import StatsSystem
 except ImportError:
-    try:
-        from systems.statssystem import StatsSystem
-    except ImportError:
-        print("⚠️ StatsSystem non trouvé - fonctionnement basique")
-        StatsSystem = None
+    StatsSystem = None
 
 try:
     from systems.clothing_system import ClothingSystem
 except ImportError:
-    try:
-        from systems.clothingsystem import ClothingSystem  
-    except ImportError:
-        print("⚠️ ClothingSystem non trouvé - fonctionnement basique")
-        ClothingSystem = None
+    ClothingSystem = None
 
 try:
     from systems.ai_system import AISystem
 except ImportError:
-    try:
-        from systems.aisystem import AISystem
-    except ImportError:
-        print("⚠️ AISystem non trouvé - fonctionnement basique")
-        AISystem = None
+    AISystem = None
 
 try:
     from systems.dialogue_system import DialogueSystem
 except ImportError:
-    try:
-        from systems.dialoguesystem import DialogueSystem
-    except ImportError:
-        print("⚠️ DialogueSystem non trouvé - fonctionnement basique")
-        DialogueSystem = None
+    DialogueSystem = None
 
 try:
     from systems.input_system import InputSystem
 except ImportError:
-    try:
-        from systems.inputsystem import InputSystem
-    except ImportError:
-        print("⚠️ InputSystem non trouvé - fonctionnement basique")
-        InputSystem = None
+    InputSystem = None
+
+# V2.0 Systems avec fallbacks
+try:
+    from systems.menu_system import MenuSystem
+except ImportError:
+    MenuSystem = None
+
+try:
+    from systems.inventory_system import InventorySystem
+except ImportError:
+    InventorySystem = None
+
+try:
+    from systems.seduction_system import SeductionSystem
+except ImportError:
+    SeductionSystem = None
+
+try:
+    from systems.progression_system import ProgressionSystem
+except ImportError:
+    ProgressionSystem = None
+
+try:
+    from systems.minigame_system import MiniGameSystem
+except ImportError:
+    MiniGameSystem = None
 
 from typing import Dict, List, Any, Optional
 import time
@@ -70,8 +76,8 @@ import json
 
 class GameSessionV2:
     """
-    GameSession V2.0 STANDALONE CORRIGÉ - REVERSE SEDUCTION
-    Version avec imports corrects et fallbacks robustes
+    GameSession V2.0 FINAL - REVERSE SEDUCTION
+    Version avec signature record_player_action() CORRECTE
     """
 
     def __init__(self, config_path: str = "assets/config/settings.json"):
@@ -80,7 +86,6 @@ class GameSessionV2:
             self.logger = GameLogger()
             self.performance_monitor = PerformanceMonitor()
         except ImportError:
-            print("⚠️ Logger/Performance non trouvés - mode basique")
             self.logger = self._create_basic_logger()
             self.performance_monitor = self._create_basic_monitor()
 
@@ -92,57 +97,21 @@ class GameSessionV2:
             self.player = PlayerCharacter("Joueuse")
         except Exception as e:
             print(f"⚠️ Erreur PlayerCharacter: {e}")
-            # Fallback basique
-            class BasicPlayer:
-                def __init__(self, name):
-                    self.name = name
-                    self.stats = {"volonte": 100, "excitation": 0}
-                def get_current_state_summary(self):
-                    return {"stats": self.stats, "resistance": 1.0, "arousal": 0.0}
-                def get_resistance_level(self):
-                    return 1.0
-            self.player = BasicPlayer("Joueuse")
+            self.player = self._create_basic_player()
 
         try:
             self.npc = NPCMale()
         except Exception as e:
             print(f"⚠️ Erreur NPCMale: {e}")
-            # Fallback basique  
-            class BasicNPC:
-                def __init__(self):
-                    self.display_name = "Homme séduisant"
-                def choose_next_action(self, resistance, context):
-                    actions = ["te parle", "sourit", "se rapproche", "te regarde intensément"]
-                    import random
-                    return random.choice(actions)
-            self.npc = BasicNPC()
+            self.npc = self._create_basic_npc()
 
         try:
             self.game_state = GameState()
         except Exception as e:
             print(f"⚠️ Erreur GameState: {e}")
-            # Fallback basique
-            class BasicGameState:
-                def __init__(self):
-                    self.turn_count = 0
-                    self.location = "bar"
-                def advance_turn(self):
-                    self.turn_count += 1
-                def record_player_action(self, action, success):
-                    pass
-                def record_npc_action(self, action, success, level):
-                    pass
-                def change_location(self, location):
-                    self.location = location
-                def check_end_conditions(self):
-                    if self.turn_count > 50:
-                        return "time_limit"
-                    return None
-                def add_story_flag(self, flag):
-                    pass
-            self.game_state = BasicGameState()
+            self.game_state = self._create_basic_game_state()
 
-        # Environments avec fallbacks
+        # Environments
         try:
             self.environments = {
                 "bar": Environment("bar", "Le Moonlight - Bar Lounge", privacy_level=0.2, escape_difficulty=0.1),
@@ -152,29 +121,14 @@ class GameSessionV2:
             }
         except Exception as e:
             print(f"⚠️ Erreur Environment: {e}")
-            # Fallback basique
-            class BasicEnvironment:
-                def __init__(self, location, display_name, privacy_level=0.5, escape_difficulty=0.3):
-                    self.location = location
-                    self.display_name = display_name
-                    self.privacy_level = privacy_level
-                    self.escape_difficulty = escape_difficulty
-                def get_random_atmosphere_description(self):
-                    return f"Ambiance {self.display_name}"
-
-            self.environments = {
-                "bar": BasicEnvironment("bar", "Le Moonlight - Bar Lounge", 0.2, 0.1),
-                "voiture": BasicEnvironment("voiture", "Dans sa voiture", 0.6, 0.3),
-                "salon": BasicEnvironment("salon", "Son appartement - Salon", 0.8, 0.5),
-                "chambre": BasicEnvironment("chambre", "Sa chambre", 1.0, 0.7)
-            }
+            self.environments = self._create_basic_environments()
 
         self.current_environment = self.environments["bar"]
 
-        # Liste entities pour systems
+        # Entities list
         self.entities = [self.player, self.npc, self.game_state] + list(self.environments.values())
 
-        # Systems manager avec fallbacks
+        # Systems manager
         try:
             self.system_manager = SystemManager()
             self._setup_systems()
@@ -182,12 +136,12 @@ class GameSessionV2:
             print(f"⚠️ Erreur SystemManager: {e}")
             self.system_manager = self._create_basic_system_manager()
 
-        # État game loop
+        # Game loop state
         self.running = False
         self.paused = False
         self.last_update_time = 0.0
 
-        # Cache optimisation
+        # Cache
         self.input_cache = {}
         self.response_cache = {}
 
@@ -222,19 +176,89 @@ class GameSessionV2:
                 }
         return BasicMonitor()
 
+    def _create_basic_player(self):
+        """Player basique fallback"""
+        class BasicPlayer:
+            def __init__(self):
+                self.name = "Joueuse"
+                self.stats = {"volonte": 100, "excitation": 0}
+            def get_current_state_summary(self):
+                return {
+                    "stats": self.stats, 
+                    "resistance": 1.0, 
+                    "arousal": self.stats["excitation"] / 100
+                }
+            def get_resistance_level(self):
+                return self.stats["volonte"] / 100
+        return BasicPlayer()
+
+    def _create_basic_npc(self):
+        """NPC basique fallback"""
+        class BasicNPC:
+            def __init__(self):
+                self.display_name = "Marcus"
+            def choose_next_action(self, resistance, context):
+                import random
+                actions = ["conversation_charme", "compliment", "regard_insistant", "rapprochement"]
+                return random.choice(actions)
+        return BasicNPC()
+
+    def _create_basic_game_state(self):
+        """GameState basique fallback avec signature correcte"""
+        class BasicGameState:
+            def __init__(self):
+                self.turn_count = 0
+                self.location = "bar"
+            def advance_turn(self):
+                self.turn_count += 1
+            def record_player_action(self, action_type, success, stats_before, stats_after):
+                # Signature correcte avec 4 paramètres
+                pass
+            def record_npc_action(self, action, success, level):
+                pass
+            def change_location(self, location):
+                self.location = location
+            def check_end_conditions(self):
+                if self.turn_count > 50:
+                    return "time_limit"
+                return None
+            def add_story_flag(self, flag):
+                pass
+        return BasicGameState()
+
+    def _create_basic_environments(self):
+        """Environments basiques fallback"""
+        class BasicEnvironment:
+            def __init__(self, location, display_name, privacy_level=0.5, escape_difficulty=0.3):
+                self.location = location
+                self.display_name = display_name
+                self.privacy_level = privacy_level
+                self.escape_difficulty = escape_difficulty
+            def get_random_atmosphere_description(self):
+                return f"Ambiance {self.display_name}"
+
+        return {
+            "bar": BasicEnvironment("bar", "Le Moonlight - Bar Lounge", 0.2, 0.1),
+            "voiture": BasicEnvironment("voiture", "Dans sa voiture", 0.6, 0.3),
+            "salon": BasicEnvironment("salon", "Son appartement - Salon", 0.8, 0.5),
+            "chambre": BasicEnvironment("chambre", "Sa chambre", 1.0, 0.7)
+        }
+
     def _create_basic_system_manager(self):
         """SystemManager basique fallback"""
         class BasicSystemManager:
             def __init__(self):
                 self.systems = []
-            def add_system(self, system, priority=0): pass
+            def add_system(self, system, priority=0): 
+                if system:
+                    self.systems.append(system)
             def get_system(self, name): return None
             def update_all(self, entities, delta_time, **context): pass
-            def __len__(self): return 0
+            def __len__(self): return len(self.systems)
         return BasicSystemManager()
 
     def _load_config(self, config_path: str) -> Dict[str, Any]:
-        """Charge configuration avec fallback robuste"""
+        """Charge configuration avec fallback"""
         default_config = {
             "game": {
                 "title": "Strip, Sex & Seduce V2.0 - Reverse Seduction",
@@ -268,11 +292,11 @@ class GameSessionV2:
                     config[section] = default_config[section]
             return config
         except:
-            print(f"⚠️ Config non trouvée, utilisation config par défaut")
             return default_config
 
     def _setup_systems(self):
-        """Setup systems avec gestion erreurs"""
+        """Setup systems V2.0 avec fallbacks"""
+        # Systems de base
         systems_to_add = [
             ("StatsSystem", StatsSystem, 1),
             ("ClothingSystem", ClothingSystem, 2), 
@@ -281,7 +305,18 @@ class GameSessionV2:
             ("InputSystem", InputSystem, 5)
         ]
 
-        for name, system_class, priority in systems_to_add:
+        # Systems V2.0 révolutionnaires
+        v2_systems = [
+            ("MenuSystem", MenuSystem, 10),
+            ("InventorySystem", InventorySystem, 11),
+            ("SeductionSystem", SeductionSystem, 12),
+            ("ProgressionSystem", ProgressionSystem, 13),
+            ("MiniGameSystem", MiniGameSystem, 14)
+        ]
+
+        all_systems = systems_to_add + v2_systems
+
+        for name, system_class, priority in all_systems:
             if system_class:
                 try:
                     system = system_class()
@@ -298,7 +333,7 @@ class GameSessionV2:
         self.performance_monitor.start_session()
 
         try:
-            # Intro
+            # Intro V2.0
             self._display_reverse_seduction_intro()
 
             while self.running:
@@ -307,7 +342,7 @@ class GameSessionV2:
                 # 1. État actuel
                 self._display_current_state()
 
-                # 2. Tour NPC  
+                # 2. Tour NPC
                 npc_action = self._process_npc_turn()
                 if npc_action:
                     print(f"\n{npc_action['description']}")
@@ -354,7 +389,7 @@ class GameSessionV2:
             self._cleanup_session()
 
     def _display_reverse_seduction_intro(self):
-        """Intro spécifique Reverse Seduction"""
+        """Intro V2.0"""
         print("\n" + "="*70)
         print("🔥 STRIP, SEX & SEDUCE V2.0 - REVERSE SEDUCTION 🔥")
         print("="*70)
@@ -364,10 +399,10 @@ class GameSessionV2:
         print("💪 TON POUVOIR: Actions pour contrôler la situation")
         print("\n💡 COMMANDES V2.0:")
         print("   r/resist = Jouer la résistance (mais pas vraiment)")
-        print("   a/allow = Encourager ses avances") 
+        print("   a/allow = Encourager ses avances")
         print("   f/flee = Tenter de fuir (test)")
         print("   aide = Voir toutes les commandes")
-        print("   stats = Ta progression Reverse Seduction") 
+        print("   stats = Ta progression Reverse Seduction")
         print("\n🔥 TU N'ES PLUS VICTIME - TU ES LA SÉDUCTRICE ! 🔥\n")
 
     def _get_v2_player_input(self) -> str:
@@ -394,17 +429,16 @@ class GameSessionV2:
                 self.player.get_resistance_level(), context
             )
         except:
-            # Fallback action aléatoire
             import random
-            actions = ["te regarde intensément", "se rapproche de toi", "sourit charmeur", "te parle doucement"]
+            actions = ["te regarde intensément", "se rapproche", "sourit charmeur"]
             chosen_action = random.choice(actions)
 
         # Génération description
         descriptions = {
-            "te parle": f"{self.npc.display_name} engage la conversation avec charme.",
-            "sourit": f"{self.npc.display_name} te fait un sourire irrésistible.",
-            "se rapproche": f"{self.npc.display_name} se rapproche subtilement de toi.",
-            "te regarde intensément": f"Ses yeux plongent dans les tiens avec intensité..."
+            "conversation_charme": f"{self.npc.display_name} engage une conversation charmante.",
+            "compliment": f"{self.npc.display_name} te fait un compliment sincère.",
+            "regard_insistant": f"Ses yeux plongent dans les tiens avec intensité...",
+            "rapprochement": f"{self.npc.display_name} se rapproche subtilement de toi."
         }
 
         description = descriptions.get(chosen_action, f"{self.npc.display_name} {chosen_action}.")
@@ -446,35 +480,40 @@ class GameSessionV2:
             return False
 
     def _player_resist_action(self) -> bool:
-        """Action résistance - Version V2.0 Reverse Seduction"""
+        """Action résistance V2.0 avec signature CORRECTE"""
         resistance_lines = [
             "💫 Tu fais semblant de résister, mais tes yeux disent le contraire...",
-            "🎭 Tu joues la timide, sachant que cela ne fait qu'augmenter son désir...", 
+            "🎭 Tu joues la timide, sachant que cela ne fait qu'augmenter son désir...",
             "💪 Tu résistes mollement, laissant entrevoir ta vraie envie...",
             "😏 'Non, on ne devrait pas...' dis-tu avec un sourire coquin."
         ]
 
         import random
         print(f"\n{random.choice(resistance_lines)}")
-
-        # En mode Reverse Seduction, la "résistance" est stratégique
         print("💭 Tu sais que ta résistance ne fait qu'attiser son désir...")
 
-        # Mise à jour stats
+        # CORRECTION: Récupération stats AVANT action
         try:
+            stats_before = self.player.get_current_state_summary().get("stats", {"volonte": 100, "excitation": 0}).copy()
+
+            # Modification stats (résistance stratégique = légère excitation)
             player_summary = self.player.get_current_state_summary()
             stats = player_summary.get("stats", {})
-            # En V2.0, résister augmente légèrement l'excitation (jeu de séduction)
             if "excitation" in stats:
                 stats["excitation"] = min(100, stats["excitation"] + 5)
-        except:
-            pass
 
-        self.game_state.record_player_action("resist", True)
+            # Stats APRÈS action
+            stats_after = stats.copy()
+
+            # SIGNATURE CORRECTE avec 4 paramètres
+            self.game_state.record_player_action("resist", True, stats_before, stats_after)
+        except Exception as e:
+            print(f"⚠️ Erreur enregistrement action: {e}")
+
         return True
 
     def _player_allow_action(self) -> bool:
-        """Action permettre - Version V2.0"""
+        """Action permettre V2.0 avec signature CORRECTE"""
         allow_lines = [
             "💫 Tu l'encourages d'un regard langoureux...",
             "🔥 'Oui... continue' murmures-tu doucement...",
@@ -486,25 +525,39 @@ class GameSessionV2:
         print(f"\n{random.choice(allow_lines)}")
         print("🔥 Tu prends le contrôle de la séduction...")
 
-        # Mise à jour stats
+        # CORRECTION: Récupération stats AVANT action
         try:
+            stats_before = self.player.get_current_state_summary().get("stats", {"volonte": 100, "excitation": 0}).copy()
+
+            # Modification stats
             player_summary = self.player.get_current_state_summary()
             stats = player_summary.get("stats", {})
             if "excitation" in stats:
                 stats["excitation"] = min(100, stats["excitation"] + 10)
             if "volonte" in stats:
                 stats["volonte"] = max(0, stats["volonte"] - 5)
-        except:
-            pass
 
-        self.game_state.record_player_action("allow", True)
+            # Stats APRÈS action
+            stats_after = stats.copy()
+
+            # SIGNATURE CORRECTE avec 4 paramètres
+            self.game_state.record_player_action("allow", True, stats_before, stats_after)
+        except Exception as e:
+            print(f"⚠️ Erreur enregistrement action: {e}")
+
         return True
 
     def _player_flee_action(self) -> bool:
-        """Action fuir - Test d'évasion"""
+        """Action fuir V2.0 avec signature CORRECTE"""
         print("\n🏃 Tu tentes de t'échapper de cette situation...")
 
-        # Calcul chance succès selon lieu
+        # Stats AVANT
+        try:
+            stats_before = self.player.get_current_state_summary().get("stats", {"volonte": 100, "excitation": 0}).copy()
+        except:
+            stats_before = {"volonte": 100, "excitation": 0}
+
+        # Calcul chance succès
         base_chance = 0.4
         difficulty = self.current_environment.escape_difficulty
         success_chance = max(0.1, base_chance - difficulty)
@@ -521,18 +574,26 @@ class GameSessionV2:
             print(f"'{self.npc.display_name}': 'Où vas-tu comme ça ? La soirée ne fait que commencer...'")
             print("💫 Son charme te fait fondre malgré toi...")
 
-        self.game_state.record_player_action("flee", success)
+        # Stats APRÈS (identiques pour fuite)
+        stats_after = stats_before.copy()
+
+        try:
+            # SIGNATURE CORRECTE avec 4 paramètres
+            self.game_state.record_player_action("flee", success, stats_before, stats_after)
+        except Exception as e:
+            print(f"⚠️ Erreur enregistrement action: {e}")
+
         return True
 
     def _display_help(self):
-        """Aide V2.0 Reverse Seduction"""
+        """Aide V2.0"""
         print("\n🎮 GUIDE STRIP, SEX & SEDUCE V2.0 - REVERSE SEDUCTION:")
         print("="*60)
         print("🔥 CONCEPT: TU ES LA SÉDUCTRICE QUI CONTRÔLE TOUT !")
         print()
         print("Actions principales:")
         print("  r / resist    = Jouer la résistance (stratégie de séduction)")
-        print("  a / allow     = Encourager et prendre contrôle") 
+        print("  a / allow     = Encourager et prendre contrôle")
         print("  f / flee      = Tenter de fuir (test de volonté)")
         print()
         print("Informations:")
@@ -548,7 +609,7 @@ class GameSessionV2:
         print("="*60)
 
     def _display_v2_stats(self):
-        """Stats V2.0 Reverse Seduction"""
+        """Stats V2.0"""
         print("\n📈 TES STATS REVERSE SEDUCTION:")
         print("="*50)
 
@@ -559,7 +620,7 @@ class GameSessionV2:
             stats = {"volonte": 100, "excitation": 0}
 
         print(f"💪 Volonté: {stats.get('volonte', 100)}/100")
-        print(f"🔥 Excitation: {stats.get('excitation', 0)}/100")  
+        print(f"🔥 Excitation: {stats.get('excitation', 0)}/100")
         print(f"🎯 Tours joués: {self.game_state.turn_count}")
         print(f"📍 Lieu actuel: {self.current_environment.display_name}")
         print(f"🔒 Privacy Level: {self.current_environment.privacy_level:.1%}")
@@ -581,17 +642,16 @@ class GameSessionV2:
 
         stats_display = f"💪 VOLONTÉ: {stats.get('volonte', 100)}/100 🔥 EXCITATION: {stats.get('excitation', 0)}/100"
         print(stats_display)
-
         print("-"*60)
 
     def _display_detailed_state(self):
-        """État détaillé avec ambiance"""
+        """État détaillé"""
         self._display_current_state()
         print(f"\n💭 {self.current_environment.get_random_atmosphere_description()}")
         print(f"🎭 Privacy Level: {self.current_environment.privacy_level:.1%} - Parfait pour tes plans...")
 
     def _update_systems(self):
-        """Update systems avec fallback"""
+        """Update systems"""
         try:
             current_time = time.perf_counter()
             delta_time = current_time - getattr(self, 'last_update_time', current_time)
@@ -606,8 +666,7 @@ class GameSessionV2:
             }
 
             self.system_manager.update_all(self.entities, delta_time, **context)
-        except Exception as e:
-            # Fallback silencieux
+        except Exception:
             pass
 
     def _check_auto_escalation(self):
@@ -626,7 +685,7 @@ class GameSessionV2:
                 self.current_environment = self.environments["voiture"]
                 self.game_state.change_location("voiture")
 
-            # Voiture → Salon  
+            # Voiture → Salon
             elif (current_loc == "voiture" and arousal > 0.6 and resistance < 0.6):
                 print("\n🏠 ESCALATION: Direction son appartement...")
                 print("'Viens chez moi, nous serons plus... tranquilles.'")
@@ -639,23 +698,22 @@ class GameSessionV2:
                 print("\n🛏️ ESCALATION FINALE: Sa chambre...")
                 print("Il te prend la main : 'Viens, nous serons mieux dans ma chambre...'")
                 print("🔥 Mission accomplie ! Tu l'as mené exactement où tu voulais !")
-                self.current_environment = self.environments["chambre"]  
+                self.current_environment = self.environments["chambre"]
                 self.game_state.change_location("chambre")
         except Exception:
             pass
 
     def _check_end_conditions(self) -> Optional[str]:
-        """Conditions fin avec fallback"""
+        """Conditions fin"""
         try:
             return self.game_state.check_end_conditions()
         except:
-            # Limite turns basique
             if self.game_state.turn_count > 30:
                 return "time_limit"
             return None
 
     def _handle_game_end(self, end_type: str):
-        """Gestion fin adaptée V2.0"""
+        """Gestion fin V2.0"""
         print("\n" + "="*60)
 
         if end_type == "submission_complete":
@@ -686,7 +744,7 @@ class GameSessionV2:
             pass
 
     def _cleanup_session(self):
-        """Nettoyage fin session"""
+        """Nettoyage session"""
         try:
             self.performance_monitor.end_session()
             stats = self.performance_monitor.get_session_stats()
@@ -697,7 +755,7 @@ class GameSessionV2:
             print(f"⚡ Performance moyenne: {stats.get('avg_response_ms', 25):.0f}ms")
             print("💫 Merci d'avoir testé la RÉVOLUTION V2.0 !")
 
-        except Exception as e:
+        except Exception:
             print("\n👋 Session terminée. Merci d'avoir joué !")
 
     def __repr__(self) -> str:
